@@ -5,7 +5,7 @@ import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 Widget CustomFormField({
   required TextEditingController controller,
   required String label,
-  required String hintText,
+  String? hintText,
   BorderRadius? borderRadius,
   double? width,
   double? height,
@@ -22,6 +22,7 @@ Widget CustomFormField({
     keyboardType: inputType, // Set the input type
     inputFormatters: inputFormatters, // Set the input formatters
     decoration: InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: EdgeInsets.symmetric(vertical: height ?? 20.0, horizontal: width ?? 20.0),
       labelText: label,
       labelStyle: TextStyle(
@@ -37,20 +38,20 @@ Widget CustomFormField({
       ),
       border: OutlineInputBorder(
         borderRadius: borderRadius ?? BorderRadius.circular(4.0),
-        borderSide: const BorderSide(
-          color: Colors.grey,
+        borderSide: BorderSide(
+          color: Colors.black.withOpacity(0.1),
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: borderRadius ?? BorderRadius.circular(4.0),
-        borderSide: const BorderSide(
-          color: Colors.black,
+        borderSide: BorderSide(
+          color: Colors.black.withOpacity(0.4),
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: borderRadius ?? BorderRadius.circular(4.0),
         borderSide: BorderSide(
-          color: Colors.grey.withOpacity(0.6),
+          color: Colors.black.withOpacity(0.1),
         ),
       ),
       suffixIcon: child,

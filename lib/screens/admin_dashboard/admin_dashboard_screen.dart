@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
+import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/widgets/admin_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -25,7 +27,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     return Scaffold(
       key: _scaffoldKey, // Assign the GlobalKey to the Scaffold
       backgroundColor: whiteColor,
-      drawer: DrawerWidget(),
+      drawer: AdminDrawerWidget(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: whiteColor,
@@ -58,6 +60,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomButton(
+              onPress: ()=> Get.toNamed(Routes.ADMIN_CREATE_COMPANY_PAGE),
               borderRadius: 6,
               height: 40,
               width: 180,
@@ -84,7 +87,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       ).box.height(50).padding(EdgeInsets.only(top: 12,bottom: 12,right: 20,left: 18)).withDecoration( BoxDecoration(
                         border: Border.all(color: Colors.grey.withOpacity(0.4)),
                         borderRadius: BorderRadius.circular(4.0), // Adjust the radius as needed
-                      ),).make(),
+                      ),).make().onTap(() {
+
+                        Get.toNamed(Routes.COMPANY_DASHBOARD_SCREEN);
+                      }),
                       20.heightBox,
                     ],
                   );

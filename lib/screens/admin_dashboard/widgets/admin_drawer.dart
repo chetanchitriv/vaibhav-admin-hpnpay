@@ -3,16 +3,15 @@ import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class DrawerWidget extends StatelessWidget {
+class AdminDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       width: 300,
       backgroundColor: whiteColor,
-      child: ListView(
-        padding: const EdgeInsets.all(0),
+      child: Column(
         children: [
-           DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
               color: whiteColor,
             ),
@@ -68,7 +67,7 @@ class DrawerWidget extends StatelessWidget {
             ).box.color(Colors.grey.withOpacity(0.2)).padding(EdgeInsets.all(18)).roundedSM.make(),
           )
         ],
-      ),
+      )
     );
   }
 }
