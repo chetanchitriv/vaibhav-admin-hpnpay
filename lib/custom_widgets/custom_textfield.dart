@@ -13,14 +13,16 @@ Widget CustomFormField({
   Color cursorColor = Colors.grey,
   Widget? child,
   String? Function(String?)? validator,
-  TextInputType? inputType, // Make it optional
-  List<TextInputFormatter>? inputFormatters, // Make it optional
+  TextInputType? inputType,
+  List<TextInputFormatter>? inputFormatters,
+  bool readOnly = false, // Make it optional
 }) {
   return TextFormField(
     obscureText: obscureText,
     controller: controller,
-    keyboardType: inputType, // Set the input type
-    inputFormatters: inputFormatters, // Set the input formatters
+    keyboardType: inputType,
+    inputFormatters: inputFormatters,
+    readOnly: readOnly, // Set the readOnly property
     decoration: InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: EdgeInsets.symmetric(vertical: height ?? 20.0, horizontal: width ?? 20.0),

@@ -9,8 +9,9 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final double? borderRadius;
   final double? textSize;
-  final Widget? child; // Added child property
-  final double? elevation; // Added elevation property
+  final Widget? child;
+  final double? elevation;
+  final EdgeInsetsGeometry? padding; // Added padding property
 
   const CustomButton({
     super.key,
@@ -22,15 +23,15 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.borderRadius,
     this.textSize = 16.0,
-    this.child, // Added child property
-    this.elevation, // Added elevation property
+    this.child,
+    this.elevation,
+    this.padding, // Added padding property
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation:
-          elevation ?? 0, // Apply elevation, default to 0 if not provided
+      elevation: elevation ?? 0,
       borderRadius: BorderRadius.circular(borderRadius ?? 0),
       color: backgroundColor,
       child: InkWell(
@@ -39,10 +40,15 @@ class CustomButton extends StatelessWidget {
           width: width,
           height: height,
           alignment: Alignment.center,
+          padding: padding, // Apply padding, default to null if not provided
           child: child ??
               Text(
                 text ?? '',
-                style: TextStyle(color: textColor, fontWeight: FontWeight.bold,fontSize: textSize, ),
+                style: TextStyle(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: textSize,
+                ),
               ),
         ),
       ),

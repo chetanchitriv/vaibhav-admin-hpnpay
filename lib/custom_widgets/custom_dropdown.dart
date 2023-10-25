@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class CustomDropdown<T> extends StatelessWidget {
   final String hintText;
@@ -16,34 +14,42 @@ class CustomDropdown<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     this.borderRadius,
-    this.validator
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<T>(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(8.0), // Make the border circular
-        ),
-        hintText: hintText,
+    return Container(
+      height: 50, // Set the desired height
+      width: double.infinity, // Set the desired width
+      decoration: BoxDecoration(
+        borderRadius: borderRadius ?? BorderRadius.circular(4.0),
+        border: Border.all(color: Colors.black.withOpacity(0.1)), // Add a grey border
       ),
-      value: value,
-      items: items.map((item) {
-        return DropdownMenuItem<T>(
-          value: item,
-          child: Text(item.toString()),
-        );
-      }).toList(),
-      onChanged: onChanged,
-      validator: (selectedValue) {
-        if (validator != null) {
-          // If a custom validation function is provided, use it.
-          return validator!(selectedValue);
-        }
-        // If no custom validation function is provided, return null (no error).
-        return null;
-      },
+      child: DropdownButtonFormField<T>(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(10), // Add padding to the text
+          border: InputBorder.none, // Remove the default border
+        ),
+        icon: Icon(Icons.keyboard_arrow_down_outlined), // Change the dropdown icon
+        hint: Text(hintText),
+        value: value,
+        items: items.map((item) {
+          return DropdownMenuItem<T>(
+            value: item,
+            child: Text(item.toString()),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        validator: (selectedValue) {
+          if (validator != null) {
+            // If a custom validation function is provided, use it.
+            return validator!(selectedValue);
+          }
+          // If no custom validation function is provided, return null (no error).
+          return null;
+        },
+      ),
     );
   }
 }

@@ -34,18 +34,37 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   width: 189,
                 ),
               ),
-              buildListTile(icon: 'assets/icons/create.png', title: 'Create', onTap: () {
-                setState(() {
-                  createExpanded = !createExpanded;
-                });
-              }, selected: false, leading: false,trailing: Icon(
-                createExpanded ? Icons.keyboard_arrow_up_rounded : Icons
-                    .keyboard_arrow_down_rounded,
-                color: blackColor,
-                size: 26,
-              ),),
+              buildListTile(
+                  icon: 'assets/icons/dashboard.png',
+                  title: 'Dashboard',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
+              buildListTile(
+                icon: 'assets/icons/create.png',
+                title: 'Create',
+                onTap: () {
 
+                  Get.toNamed(Routes.COMPANY_CREATE_FORM_DASHBOARD);
+
+                  setState(() {
+                    createExpanded = !createExpanded;
+                  });
+                },
+                selected: false,
+                leading: false,
+                trailing: Icon(
+                  createExpanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  color: blackColor,
+                  size: 26,
+                ),
+              ),
+              5.heightBox,
               if (createExpanded)
                 Column(
                   children: [
@@ -55,16 +74,20 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       onTap: () {
                         Get.toNamed(Routes.COMPANY_CREATE_FORM_PAGE);
                       },
-                      selected: false, leading: true, // Change this to true for the selected item
+                      selected: false,
+                      leading:
+                          true, // Change this to true for the selected item
                     ),
                     buildListTile(
                       icon: 'assets/icons/create_ledger.png',
                       title: 'Create Ledger',
                       onTap: () {
-                        Navigator.pop(context);
-                        // Handle the 'Create Ledger' action here
+                        // Get.toNamed(Routes.COMPANY_CREATE_LEDGER_PAGE);
+                        Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
                       },
-                      selected: false, leading: true, // Change this to true for the selected item
+                      selected: false,
+                      leading:
+                          true, // Change this to true for the selected item
                     ),
                     buildListTile(
                       icon: 'assets/icons/create_loan.png',
@@ -73,7 +96,9 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                         Navigator.pop(context);
                         // Handle the 'Create Loan' action here
                       },
-                      selected: false, leading: true, // Change this to true for the selected item
+                      selected: false,
+                      leading:
+                          true, // Change this to true for the selected item
                     ),
                     buildListTile(
                       icon: 'assets/icons/create_level.png',
@@ -82,50 +107,92 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                         Navigator.pop(context);
                         // Handle the 'Create Level' action here
                       },
-                      selected: false, leading: true, // Change this to true for the selected item
+                      selected: false,
+                      leading:
+                          true, // Change this to true for the selected item
                     ),
                   ],
                 ),
-              buildListTile(icon: 'assets/icons/career.png', title: 'Career', onTap: (){
-                Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/career.png',
+                  title: 'Career',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-              buildListTile(icon: 'assets/icons/balancesheet.png', title: 'Balancesheet', onTap: (){
-                Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/balancesheet.png',
+                  title: 'Balancesheet',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-
-              buildListTile(icon: 'assets/icons/profitloss.png', title: 'Profit & Loss', onTap: (){
-                Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/profitloss.png',
+                  title: 'Profit & Loss',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-
-              buildListTile(icon: 'assets/icons/report.png', title: 'Report', onTap: (){
-                Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/report.png',
+                  title: 'Report',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-
               Container(
                 height: 1,
                 color: Colors.grey.withOpacity(0.3),
               ),
               5.heightBox,
-
-              buildListTile(icon: 'assets/icons/help_flag.png', title: 'Help', onTap:(){Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/help_flag.png',
+                  title: 'Help',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-
-              buildListTile(icon: 'assets/icons/logout.png', title: 'Logout', onTap:(){Navigator.pop(context);}, selected: false, leading: false),
+              buildListTile(
+                  icon: 'assets/icons/logout.png',
+                  title: 'Logout',
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  selected: false,
+                  leading: false),
               5.heightBox,
-
               Container(
                 height: 1,
                 color: Colors.grey.withOpacity(0.3),
               ),
               5.heightBox,
-
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    'Found an bug?'.text.semiBold.color(primaryColor).size(20).make(),
+                    'Found an bug?'
+                        .text
+                        .semiBold
+                        .color(primaryColor)
+                        .size(20)
+                        .make(),
                     5.heightBox,
-                    'Report now to us if you find any bugs'.text.color(Colors.grey.withOpacity(0.6)).size(8).make(),
+                    'Report now to us if you find any bugs'
+                        .text
+                        .color(Colors.grey.withOpacity(0.6))
+                        .size(8)
+                        .make(),
                     15.heightBox,
                     CustomButton(
                       width: double.infinity,
@@ -142,7 +209,12 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       ),
                     )
                   ],
-                ).box.color(Colors.grey.withOpacity(0.2)).padding(EdgeInsets.all(18)).roundedSM.make(),
+                )
+                    .box
+                    .color(Colors.grey.withOpacity(0.2))
+                    .padding(EdgeInsets.all(18))
+                    .roundedSM
+                    .make(),
               )
             ],
           ),
@@ -150,5 +222,4 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
       ),
     );
   }
-
 }
