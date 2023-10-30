@@ -12,7 +12,7 @@ class CompanyCreateFormDashboard extends StatelessWidget {
   final List<String> icons = <String>['assets/icons/create_form.png','assets/icons/create_group.png','assets/icons/create_loan.png','assets/icons/create_level.png'];
   final List<String> companyCreateFormTitle = <String>[
     'Create Form',
-    'Create group',
+    'Create Ledger',
     'Create Loan',
     'Create Level',
   ];
@@ -77,7 +77,14 @@ class CompanyCreateFormDashboard extends StatelessWidget {
               companyCreateFormTitle[index].text.bold.black.size(18).make(),
             ],
           ).box.color(Color(0xFFF4F4F4)).p16.roundedSM.make().onTap(() {
-            Get.toNamed(Routes.COMPANY_CREATE_FORM_PAGE);
+            if (index == 0) {
+              // Navigate to COMPANY_CREATE_FORM_PAGE
+              Get.toNamed(Routes.COMPANY_CREATE_FORM_PAGE);
+            } else if (index == 1) {
+              // Navigate to COMPANY_CREATE_LEDGER_PAGE
+              // Get.toNamed(Routes.COMPANY_CREATE_LEDGER_PAGE);
+              Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+            }
           });
         },
       ),

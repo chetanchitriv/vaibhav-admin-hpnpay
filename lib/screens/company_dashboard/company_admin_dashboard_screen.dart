@@ -14,10 +14,12 @@ class CompanyAdminDashBoardScreen extends StatefulWidget {
   CompanyAdminDashBoardScreen({super.key});
 
   @override
-  State<CompanyAdminDashBoardScreen> createState() => _CompanyAdminDashBoardScreenState();
+  State<CompanyAdminDashBoardScreen> createState() =>
+      _CompanyAdminDashBoardScreenState();
 }
 
-class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScreen> {
+class _CompanyAdminDashBoardScreenState
+    extends State<CompanyAdminDashBoardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String dropdownSelectForm = 'Select Form';
@@ -40,7 +42,6 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: whiteColor,
       key: _scaffoldKey,
       drawer: CompanyDrawerWidget(),
@@ -48,7 +49,7 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
         elevation: 0,
         backgroundColor: whiteColor,
         leading: InkWell(
-            onTap: (){
+            onTap: () {
               _scaffoldKey.currentState!.openDrawer();
             },
             child: Image.asset('assets/icons/drawer.png')),
@@ -59,12 +60,14 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
               child: Image.asset('assets/images/profile.jpg'),
             ),
             8.widthBox,
-
             'Priya Sharma'.text.color(primaryColor).size(12).make(),
             4.widthBox,
-            Icon(Icons.keyboard_arrow_down,color: primaryColor,size: 16,),
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: primaryColor,
+              size: 16,
+            ),
             8.widthBox,
-
             Image.asset('assets/icons/notifications.png')
           ],
         ),
@@ -86,7 +89,8 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
             onChanged: (String? val) {
               setState(() {
                 dropdownSelectForm = val ?? 'Select Form';
-                navigateToSelectedScreen(dropdownSelectForm); // Navigate to the selected screen
+                navigateToSelectedScreen(
+                    dropdownSelectForm); // Navigate to the selected screen
               });
             },
           ),
@@ -95,31 +99,50 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
             children: [
               'Ledgers'.text.color(primaryColor).bold.make(),
               Spacer(),
-
-              'Choose Position'.text.color(blackColor.withOpacity(0.4)).size(10).make(),
-              5.widthBox,
-
-              CustomCheckbox(
-                value: false,
-                activeColor: Colors.green,
-                borderRadius: BorderRadius.circular(50),
+              Text(
+                'Choose Position',
+                style:
+                    TextStyle(color: blackColor.withOpacity(0.4), fontSize: 10),
               ),
+              const SizedBox(width: 5),
+              Container(
+                height: 18,
+                width: 18,
+                color: primaryColor,
+                child: Icon(Icons.keyboard_arrow_down,
+                    color: whiteColor, size: 16),
+              ).onTap(() {
+                // if (dropdownKey.currentState != null) {
+                //   dropdownKey.currentState.openContainer();
+                // }
+              })
             ],
           ),
+          20.heightBox,
           ListView.builder(
               shrinkWrap: true,
               itemCount: formNameList.length,
-              itemBuilder: (BuildContext context, int index){
+              itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: [
                     Row(
                       children: [
-                        Image.asset('assets/images/profile.jpg',height: 34,width: 34,),
+                        Image.asset(
+                          'assets/images/profile.jpg',
+                          height: 34,
+                          width: 34,
+                        ),
                         5.widthBox,
-                        formNameList[index].text.semiBold.size(14).color(blackColor).make(),
+                        formNameList[index]
+                            .text
+                            .semiBold
+                            .size(14)
+                            .color(blackColor)
+                            .make(),
                         Spacer(),
                         CustomButton(
-                          onPress: ()=>Get.toNamed(Routes.VIEW_BANK_LEDGER_PROFILE_PAGE),
+                          onPress: () =>
+                              Get.toNamed(Routes.VIEW_BANK_LEDGER_PROFILE_PAGE),
                           borderRadius: 3,
                           padding: EdgeInsets.all(4),
                           width: 100,
@@ -137,8 +160,6 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
                   ],
                 );
               })
-
-
         ],
       ).p16(),
     );
@@ -147,6 +168,7 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
   void navigateToSelectedScreen(String selectedForm) {
     if (selectedForm == 'Add new form') {
       // Navigate to the "AddNewFormScreen"
+      Get.toNamed(Routes.COMPANY_CREATE_FORM_PAGE);
     } else if (selectedForm == 'Party(Bank)') {
       // Navigate to the "PartyBankScreen"
       Get.toNamed(Routes.COMPANY_CREATE_LEDGER_PAGE);
@@ -156,5 +178,4 @@ class _CompanyAdminDashBoardScreenState extends State<CompanyAdminDashBoardScree
       // Navigate to the "AgentScreen"
     }
   }
-
 }

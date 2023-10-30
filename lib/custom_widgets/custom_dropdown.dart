@@ -7,6 +7,7 @@ class CustomDropdown<T> extends StatelessWidget {
   final ValueChanged<T?> onChanged;
   final BorderRadius? borderRadius;
   final String? Function(T?)? validator;
+  final bool isReadOnly;
 
   CustomDropdown({
     required this.hintText,
@@ -15,6 +16,7 @@ class CustomDropdown<T> extends StatelessWidget {
     required this.onChanged,
     this.borderRadius,
     this.validator,
+    this.isReadOnly = false,
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomDropdown<T> extends StatelessWidget {
             child: Text(item.toString()),
           );
         }).toList(),
-        onChanged: onChanged,
+        onChanged: isReadOnly ? null : onChanged,
         validator: (selectedValue) {
           if (validator != null) {
             // If a custom validation function is provided, use it.

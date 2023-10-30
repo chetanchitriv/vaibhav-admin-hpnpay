@@ -8,7 +8,7 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_dropdown.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
-import 'package:hpn_pay_project_avestan/custom_widgets/custom_textfield.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';

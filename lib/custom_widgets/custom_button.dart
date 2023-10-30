@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback? onPress;
+  final bool isLoading;
   final String? text;
   final Color? backgroundColor;
   final Color? textColor;
@@ -16,6 +18,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     this.onPress,
+    this.isLoading = false,
     this.text,
     this.backgroundColor,
     this.textColor,
@@ -35,21 +38,29 @@ class CustomButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius ?? 0),
       color: backgroundColor,
       child: InkWell(
-        onTap: onPress,
+        onTap: isLoading ? null : onPress, // Disable button if loading
         child: Container(
           width: width,
           height: height,
+          padding: padding,
           alignment: Alignment.center,
-          padding: padding, // Apply padding, default to null if not provided
-          child: child ??
-              Text(
-                text ?? '',
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: textSize,
+          child: isLoading
+              ? const Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2,color: whiteColor),
+                  ),
+                )
+              : Text(
+                  text ?? '',
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: textSize,
+                  ),
                 ),
-              ),
         ),
       ),
     );

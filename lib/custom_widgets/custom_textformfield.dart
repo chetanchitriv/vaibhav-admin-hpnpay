@@ -12,11 +12,17 @@ Widget CustomFormField({
   bool obscureText = false,
   Color cursorColor = Colors.grey,
   Widget? child,
-  String? Function(String?)? validator,
   TextInputType? inputType,
   List<TextInputFormatter>? inputFormatters,
   bool readOnly = false, // Make it optional
+  int? length,
+  bool validator = true,
 }) {
+  if (length != null) {
+    // If length is specified, add a LengthLimitingTextInputFormatter
+    inputFormatters ??= <TextInputFormatter>[];
+    inputFormatters.add(LengthLimitingTextInputFormatter(length));
+  }
   return TextFormField(
     obscureText: obscureText,
     controller: controller,
@@ -59,11 +65,14 @@ Widget CustomFormField({
       suffixIcon: child,
     ),
     cursorColor: cursorColor,
-    validator: (value) {
-      if (validator != null) {
-        return validator(value);
+    validator: validator // Use the validator parameter directly
+        ? (value) {
+      if (value == null || value.isEmpty) {
+        return 'This field cannot be empty';
       }
+      // You can add more custom validation logic here if needed.
       return null;
-    },
+    }
+        : null,
   );
 }

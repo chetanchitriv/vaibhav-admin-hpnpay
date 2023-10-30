@@ -20,6 +20,8 @@ dependencies:
   syncfusion_flutter_datagrid: ^23.1.41
   syncfusion_flutter_gauges: ^23.1.41
   syncfusion_flutter_charts: ^23.1.41
+  blurry: ^1.4.2
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -29,7 +29,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   color: whiteColor,
                 ),
                 child: Image.asset(
-                  'assets/images/logo.jpeg',
+                  'assets/images/logo.png',
                   height: 279,
                   width: 189,
                 ),
@@ -38,7 +38,9 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   icon: 'assets/icons/dashboard.png',
                   title: 'Dashboard',
                   onTap: () {
-                    Navigator.pop(context);
+                    // Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+                    Get.toNamed(Routes.COMPANY_DASHBOARD_SCREEN);
+
                   },
                   selected: false,
                   leading: false),
@@ -47,7 +49,6 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                 icon: 'assets/icons/create.png',
                 title: 'Create',
                 onTap: () {
-
                   Get.toNamed(Routes.COMPANY_CREATE_FORM_DASHBOARD);
 
                   setState(() {

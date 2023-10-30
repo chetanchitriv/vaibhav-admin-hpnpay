@@ -6,8 +6,10 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_dropdown.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
-import 'package:hpn_pay_project_avestan/custom_widgets/custom_textfield.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
+import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_form_data.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -19,34 +21,7 @@ class CompanyCreateFormPage extends StatefulWidget {
 }
 
 class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
-  var formNameController = TextEditingController();
-
-  String dropdownValueCity = 'Select Group';
-
-  // Selected value
-  String dropdownValueArea = 'Select Sub-group';
-
-  // Selected value
-  List<String> city = [
-    'Select Group',
-    'Nagpur',
-    'Pune',
-    'Nashik',
-    'Amravati',
-    'Wardha',
-  ];
-
-  List<String> area = [
-    'Select Sub-group',
-    'Trimurti Nagar',
-    'Pratap nagar',
-    'Shrawan nagar',
-    'Kharbi',
-    'Dighori',
-  ];
-
-  List<CompanyFormListData> companyFormListData =
-      CompanyFormListData.companyFormListData;
+  var createFormController = Get.put(CompanyDashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,74 +34,92 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
           backgroundColor: whiteColor,
         ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:  <Widget>[
-              CustomRichText(
-                text: 'Form Name',
-                textColor: primaryColor,
-                showAsterisk: true,
-              ),
-              6.heightBox,
-              CustomFormField(
-                height: 16,
-                controller: formNameController,
-                label: 'Enter name',
-              ),
-              8.heightBox,
-              CustomRichText(
-                text: 'Add Group',
-                textColor: primaryColor,
-                showAsterisk: true,
-              ),
-              6.heightBox,
-              CustomDropdown(
-                hintText: 'Select Group',
-                value: dropdownValueCity,
-                items: city,
-                onChanged: (String? val) {
-                  setState(() {
-                    dropdownValueCity = val ?? 'Select Group';
-                  });
-                },
-              ),
-              8.heightBox,
-              CustomRichText(
-                text: 'Address',
-                textColor: primaryColor,
-                showAsterisk: true,
-              ),
-              6.heightBox,
-              CustomDropdown(
-                hintText: 'Select Sub-group',
-                value: dropdownValueArea,
-                items: area,
-                onChanged: (String? val) {
-                  setState(() {
-                    dropdownValueArea = val ?? 'Select Sub-group';
-                  });
-                },
-              ),
-              20.heightBox,
-              'Add Field'.text.size(20).semiBold.make(),
-              20.heightBox,
-              getFormDataListUI(),
-              20.heightBox,
-              Align(
-                alignment: Alignment.center,
-                child: CustomButton(
-                  onPress: Get.back,
-                  backgroundColor: primaryColor,
-                  textColor: whiteColor,
-                  text: 'Create Form',
-                  height: 50,
-                  width: 240,
-                  borderRadius: 24,
+          child: Form(
+            key: createFormController.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:  <Widget>[
+                CustomRichText(
+                  text: 'Form Name',
+                  textColor: primaryColor,
+                  showAsterisk: true,
                 ),
-              ),
+                6.heightBox,
+                CustomFormField(
+                  validator: true,
+                  height: 16,
+                  controller: createFormController.formNameController,
+                  label: 'Enter name',
+                ),
+                8.heightBox,
+                CustomRichText(
+                  text: 'Add Group',
+                  textColor: primaryColor,
+                  showAsterisk: true,
+                ),
+                6.heightBox,
+                CustomDropdown(
+                  hintText: 'Select Group',
+                  value: createFormController.dropdownValueCity,
+                  items: createFormController.city,
+                  onChanged: (String? val) {
+                    setState(() {
+                      createFormController.dropdownValueCity = val ?? 'Select Group';
+                    });
+                  },
+                ),
+                8.heightBox,
+                CustomRichText(
+                  text: 'Add Sub-Group',
+                  textColor: primaryColor,
+                  showAsterisk: true,
+                ),
+                6.heightBox,
+                CustomDropdown(
+                  hintText: 'Select Sub-group',
+                  value: createFormController.dropdownValueArea,
+                  items: createFormController.area,
+                  onChanged: (String? val) {
+                    setState(() {
+                      createFormController.dropdownValueArea = val ?? 'Select Sub-group';
+                    });
+                  },
+                ),
+                20.heightBox,
+                'Add Field'.text.size(20).semiBold.make(),
+                20.heightBox,
+                getFormDataListUI(),
+                20.heightBox,
+                Align(
+                  alignment: Alignment.center,
+                  child: CustomButton(
+                    isLoading: createFormController.isButtonLoad.value,
+                    onPress: () async{
+                      try {
+                        createFormController.isButtonLoad.value = true;
+                        List<CompanyFormListData> selectedFields = CompanyFormListData.companyFormListData;
 
-            ],
-          ).p16(),
+                        await createFormController.createForm(selectedFields,context);
+
+                        createFormController.isButtonLoad.value = false;
+
+                      } catch (e) {
+                        // Handle errors or show messages here
+                        createFormController.isButtonLoad.value = false;
+                        print('Error: $e');
+                      }},
+                    backgroundColor: primaryColor,
+                    textColor: whiteColor,
+                    text: 'Create Form',
+                    height: 50,
+                    width: 240,
+                    borderRadius: 24,
+                  ),
+                ),
+
+              ],
+            ).p16(),
+          ),
         ));
   }
 
@@ -149,11 +142,11 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
     final List<Widget> noList = <Widget>[];
     int count = 0;
     const int columnCount = 2;
-    for (int i = 0; i < companyFormListData.length / columnCount; i++) {
+    for (int i = 0; i < createFormController.companyFormListData.length / columnCount; i++) {
       final List<Widget> listUI = <Widget>[];
       for (int i = 0; i < columnCount; i++) {
         try {
-          final CompanyFormListData date = companyFormListData[count];
+          final CompanyFormListData date = createFormController.companyFormListData[count];
           listUI.add(Expanded(
             child: Row(
               children: <Widget>[
@@ -181,10 +174,14 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
                           const SizedBox(
                             width: 4,
                           ),
-                          Text(
-                            date.titleTxt,
-                            style: TextStyle(fontSize: 13),
-                          ),
+                          SizedBox(
+                            width: 120, // Set the width of the container
+                            child: Text(
+                              date.titleTxt,
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          )
+
                         ],
                       ),
                     ),
@@ -193,7 +190,7 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
               ],
             ),
           ));
-          if (count < companyFormListData.length - 1) {
+          if (count < createFormController.companyFormListData.length - 1) {
             count += 1;
           } else {
             break;

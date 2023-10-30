@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
-import 'package:hpn_pay_project_avestan/custom_widgets/custom_textfield.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
+import 'package:hpn_pay_project_avestan/screens/auth/auth_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PhoneAuthOtpScreen extends StatelessWidget {
   PhoneAuthOtpScreen({super.key});
 
+  var authController = Get.put(AuthController());
 
   double fieldSpacing = 20.0;
-  List<TextEditingController> textEditingControllerList =
-  List.generate(6, (index) => TextEditingController());
 
   bool areFieldsFilled() {
-    for (var controller in textEditingControllerList) {
+    for (var controller in authController.otpControllerList) {
       if (controller.text.isEmpty) {
         return false;
       }
@@ -37,7 +37,7 @@ class PhoneAuthOtpScreen extends StatelessWidget {
               100.heightBox,
               'Admin Login'.text.size(34).color(primaryColor).bold.make(),
               20.heightBox,
-              Image.asset('assets/images/logo.jpeg',height: 279,width: 189,),
+              Image.asset('assets/images/logo.png',height: 279,width: 189,),
               60.heightBox,
               Align(
                   alignment: Alignment.topLeft,
@@ -62,7 +62,7 @@ class PhoneAuthOtpScreen extends StatelessWidget {
                           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                         ],
                         keyboardType: TextInputType.number,
-                        controller: textEditingControllerList[index],
+                        controller: authController.otpControllerList[index],
                         cursorColor: Colors.indigo,
                         onChanged: (value) {
                           if (value.length == 1 && index <= 4) {
@@ -118,7 +118,7 @@ class PhoneAuthOtpScreen extends StatelessWidget {
               ),
               40.heightBox,
               CustomButton(
-                onPress: ()=> Get.toNamed(Routes.ADMIN_DASHBOARD_SCREEN),
+                onPress: ()=> authController.verifyOTP(context),
                 borderRadius: 4,
                 height: 48,
                 width: double.infinity,

@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
-import 'package:hpn_pay_project_avestan/custom_widgets/custom_textfield.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
+import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class AdminCreateCompanyPage extends StatelessWidget {
+class AdminCreateCompanyPage extends StatefulWidget {
   AdminCreateCompanyPage({Key? key}) : super(key: key);
 
-  var companyNameController = TextEditingController();
-  var mailingNameController = TextEditingController();
-  var addressController = TextEditingController();
-  var stateController = TextEditingController();
-  var cityController = TextEditingController();
-  var pinCodeController = TextEditingController();
-  var telephoneNumberController = TextEditingController();
-  var mobileNumberController = TextEditingController();
+  @override
+  State<AdminCreateCompanyPage> createState() => _AdminCreateCompanyPageState();
+}
 
-  var emailAddressController = TextEditingController();
-  var websiteAddressController = TextEditingController();
-  var gstNumberController = TextEditingController();
-  var licenseNameController = TextEditingController();
-  var licenseNumberController = TextEditingController();
-  var panCardController = TextEditingController();
-
-  final PageController _pageController = PageController(initialPage: 0);
+class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
+  var adminDashboardController = Get.put(AdminDashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +30,17 @@ class AdminCreateCompanyPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: [
-          firstFormPage(0),
-          secondFormPage(1),
-          // Add more pages as needed
-        ],
+      body: Form(
+        key: adminDashboardController.formKey,
+        child: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: adminDashboardController.pageController,
+          children: [
+            firstFormPage(0),
+            secondFormPage(1),
+            // Add more pages as needed
+          ],
+        ),
       ),
     );
   }
@@ -64,7 +58,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: companyNameController,
+            controller: adminDashboardController.companyNameController,
             label: 'Company name',
           ),
           8.heightBox,
@@ -76,7 +70,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: mailingNameController,
+            controller: adminDashboardController.mailingNameController,
             label: 'Mailing Name',
           ),
           6.heightBox,
@@ -88,7 +82,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: addressController,
+            controller: adminDashboardController.addressController,
             label: 'Address',
           ),
           8.heightBox,
@@ -100,7 +94,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: stateController,
+            controller: adminDashboardController.stateController,
             label: 'State',
           ),
           6.heightBox,
@@ -112,7 +106,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: cityController,
+            controller: adminDashboardController.cityController,
             label: 'City',
           ),
           8.heightBox,
@@ -123,8 +117,11 @@ class AdminCreateCompanyPage extends StatelessWidget {
           ),
           6.heightBox,
           CustomFormField(
+            length: 6,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
-            controller: pinCodeController,
+            controller: adminDashboardController.pinCodeController,
             label: 'Pincode',
           ),
           6.heightBox,
@@ -135,8 +132,11 @@ class AdminCreateCompanyPage extends StatelessWidget {
           ),
           6.heightBox,
           CustomFormField(
+            length: 10,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
-            controller: telephoneNumberController,
+            controller: adminDashboardController.telephoneNumberController,
             label: 'Telephone Number',
           ),
           8.heightBox,
@@ -147,8 +147,11 @@ class AdminCreateCompanyPage extends StatelessWidget {
           ),
           6.heightBox,
           CustomFormField(
+            length: 10,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
-            controller: companyNameController,
+            controller: adminDashboardController.mobileNumberController,
             label: 'Mobile Number',
           ),
           6.heightBox,
@@ -158,14 +161,17 @@ class AdminCreateCompanyPage extends StatelessWidget {
               width: 80,
               child: TextButton(
                   onPressed: () {
-                    if (page < 1) {
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.ease,
-                      );
-                    } else {
-                      // Handle form submission or navigation to the next screen
-                      // based on your app logic.
+                    if (adminDashboardController.formKey.currentState!
+                        .validate()) {
+                      if (page < 1) {
+                        adminDashboardController.pageController.nextPage(
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease,
+                        );
+                      } else {
+                        // Handle form submission or navigation to the next screen
+                        // based on your app logic.
+                      }
                     }
                   },
                   child: Row(
@@ -200,7 +206,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: emailAddressController,
+            controller: adminDashboardController.emailAddressController,
             label: 'Email Address',
           ),
           8.heightBox,
@@ -212,7 +218,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: websiteAddressController,
+            controller: adminDashboardController.websiteAddressController,
             label: 'Website Address',
           ),
           6.heightBox,
@@ -224,7 +230,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: gstNumberController,
+            controller: adminDashboardController.gstNumberController,
             label: 'GST Number',
           ),
           8.heightBox,
@@ -236,7 +242,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: licenseNameController,
+            controller: adminDashboardController.licenseNameController,
             label: 'License Name',
           ),
           6.heightBox,
@@ -247,14 +253,58 @@ class AdminCreateCompanyPage extends StatelessWidget {
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
-            controller: licenseNumberController,
+            controller: adminDashboardController.licenseNumberController,
             label: 'License Number',
           ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: adminDashboardController.licenses.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'License Name',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    height: 16,
+                    controller: adminDashboardController
+                        .licenses[index].licenseNameListController,
+                    label: 'License Name',
+                  ),
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'License Number',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // Pass it as a list
+                    inputType: TextInputType.number,
+                    height: 16,
+                    controller: adminDashboardController
+                        .licenses[index].licenseNumberListController,
+                    label: 'License Number',
+                  ),
+                ],
+              );
+            },
+          ),
+
           10.heightBox,
           Align(
             alignment: Alignment.bottomRight,
             child: CustomButton(
+              onPress: addLicenseField,
               borderRadius: 8,
               width: 120,
               height: 30,
@@ -273,7 +323,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
           6.heightBox,
           CustomFormField(
             height: 16,
-            controller: panCardController,
+            controller: adminDashboardController.panCardController,
             label: 'Pan Card Number',
           ),
 
@@ -283,7 +333,7 @@ class AdminCreateCompanyPage extends StatelessWidget {
             child: TextButton(
                 onPressed: () {
                   if (page > 0) {
-                    _pageController.previousPage(
+                    adminDashboardController.pageController.previousPage(
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease,
                     );
@@ -306,20 +356,54 @@ class AdminCreateCompanyPage extends StatelessWidget {
                 )),
           ),
           // Spacer(),
-          Align(
-            alignment: Alignment.center,
-            child: CustomButton(
-              onPress: ()=> Get.toNamed(Routes.ADMIN_DASHBOARD_SCREEN),
-              height: 40,
-              width: 160,
-              backgroundColor: primaryColor,
-              text: 'Submit',
-              textColor: whiteColor,
-              borderRadius: 22,
-            ),
-          )
+          Obx(() {
+            return Align(
+              alignment: Alignment.center,
+              child: CustomButton(
+                isLoading: adminDashboardController.isButtonLoad.value,
+                onPress: () async{
+                  try {
+                    adminDashboardController.isButtonLoad.value = true;
+
+                    await adminDashboardController.createCompany(context);
+
+                    adminDashboardController.isButtonLoad.value = false;
+
+                  } catch (e) {
+                    // Handle errors or show messages here
+                    adminDashboardController.isButtonLoad.value = false;
+                    print('Error: $e');
+                  }},
+                height: 40,
+                width: 160,
+                backgroundColor: primaryColor,
+                text: 'Submit',
+                textColor: whiteColor,
+                borderRadius: 22,
+              ),
+            );
+          })
+
         ],
       ).p16(),
     );
   }
+
+  void addLicenseField() {
+    adminDashboardController.licenses.add(LicenseData(
+      licenseNameListController: TextEditingController(),
+      licenseNumberListController: TextEditingController(),
+    ));
+    setState(() {});
+  }
+}
+
+class LicenseData {
+  final TextEditingController licenseNameListController;
+  final TextEditingController licenseNumberListController;
+
+  LicenseData({
+    required this.licenseNameListController,
+    required this.licenseNumberListController,
+  });
 }

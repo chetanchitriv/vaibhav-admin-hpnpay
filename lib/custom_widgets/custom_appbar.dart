@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          GestureDetector(
+          InkWell(
             onTap: () {
               if (onBackTap != null) {
                 onBackTap!();

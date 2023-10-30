@@ -6,12 +6,14 @@ import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_dialogue.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_dropdown.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
-import 'package:hpn_pay_project_avestan/custom_widgets/custom_textfield.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ViewBankLedgerProfilePage extends StatefulWidget {
@@ -56,14 +58,16 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
   void onUpgradePlanChangedYes(bool? newValue) {
     setState(() {
       isUpgradePlanYesSelected = newValue;
-      isUpgradePlanNoSelected = !newValue!; // Deselect "No" when "Yes" is selected
+      isUpgradePlanNoSelected =
+      !newValue!; // Deselect "No" when "Yes" is selected
     });
   }
 
   void onUpgradePlanChangedNo(bool? newValue) {
     setState(() {
       isUpgradePlanNoSelected = newValue;
-      isUpgradePlanYesSelected = !newValue!; // Deselect "Yes" when "No" is selected
+      isUpgradePlanYesSelected =
+      !newValue!; // Deselect "Yes" when "No" is selected
     });
   }
 
@@ -80,19 +84,49 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    loadSwitchState();
+  }
+
+  void loadSwitchState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      ledgerPageController.switchValue = prefs.getBool('switchValue') ?? false;
+    });
+  }
+
+  void saveSwitchState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('switchValue', value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: CustomAppBar(
           onBackTap: Get.back,
-          leading: Icon(Icons.arrow_back_ios, color: blackColor, size: 20),
+          leading: Icon(Icons.arrow_back_ios, color: blackColor, size: 20)
+              .px4(),
           backgroundColor: whiteColor,
+          child: Switch(
+            value: ledgerPageController.switchValue,
+            onChanged: (bool newValue) {
+              setState(() {
+                ledgerPageController.switchValue = newValue;
+              });
+              saveSwitchState(newValue);
+            },
+            activeColor: primaryColor,
+            inactiveTrackColor: Colors.grey,
+          ).px4(),
         ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              
+
               6.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,8 +142,9 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                         textColor: primaryColor,
                         showAsterisk: true,
                       ),
+                      6.heightBox,
                       SizedBox(
-                        width: 180,
+                        width: 200,
                         child: CustomFormField(
                           readOnly: true,
                           height: 16,
@@ -125,17 +160,23 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                       ),
                       6.heightBox,
                       SizedBox(
-                        width: 180,
+                        width: 200,
                         child: CustomFormField(
                           readOnly: true,
                           height: 16,
-                          controller: ledgerPageController.displayNameController,
+                          controller: ledgerPageController
+                              .displayNameController,
                           label: 'Display name',
                         ),
                       ),
                     ],
                   ),
-                  Image.asset('assets/images/profile.jpg',fit: BoxFit.fill,height: 100,width: 80,)
+                  Image
+                      .asset('assets/images/viewprofile.png',)
+                      .box
+                      .height(153)
+                      .width(116)
+                      .make()
                 ],
               ),
               8.heightBox,
@@ -205,7 +246,10 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                         width: 153,
                         child: CustomFormField(
                           readOnly: true,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          // Pass it as a list
                           inputType: TextInputType.number,
                           height: 16,
                           controller: ledgerPageController.pinCodeController,
@@ -227,7 +271,8 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               CustomFormField(
                 readOnly: true,
 
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                // Pass it as a list
                 inputType: TextInputType.number,
                 height: 16,
                 controller: ledgerPageController.mobileNumberController,
@@ -256,6 +301,7 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               Row(
                 children: [
                   CustomCheckbox(
+                    isReadOnly: true,
                     label: 'Yes',
                     value: isYesSelected,
                     onChanged: onChangedYes,
@@ -263,6 +309,7 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   CustomCheckbox(
+                    isReadOnly: true,
                     label: 'No',
                     value: isNoSelected,
                     onChanged: onChangedNo,
@@ -274,7 +321,8 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               Visibility(
                   visible: isYesSelected == true,
                   child: CustomFormField(
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      // Pass it as a list
                       inputType: TextInputType.number,
                       controller: ledgerPageController.gstNumberController,
                       label: 'GST Number')),
@@ -342,7 +390,8 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               6.heightBox,
               CustomFormField(
                 readOnly: true,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                // Pass it as a list
                 inputType: TextInputType.number,
                 height: 16,
                 controller: ledgerPageController.passwordController,
@@ -356,6 +405,7 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               ),
               6.heightBox,
               CustomDropdown(
+                isReadOnly: true,
                 hintText: 'Enter',
                 value: dropdownValueLoan,
                 items: loanTypes,
@@ -389,7 +439,10 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                         width: 153,
                         child: CustomFormField(
                           readOnly: true,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          // Pass it as a list
                           inputType: TextInputType.number,
                           height: 16,
                           controller:
@@ -413,7 +466,10 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                         width: 153,
                         child: CustomFormField(
                           readOnly: true,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          // Pass it as a list
                           inputType: TextInputType.number,
                           height: 16,
                           controller:
@@ -433,6 +489,7 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               ),
               6.heightBox,
               CustomDropdown(
+                isReadOnly: true,
                 hintText: 'Select',
                 value: dropdownValueLoan,
                 items: loanTypes,
@@ -452,66 +509,96 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               6.heightBox,
               CustomFormField(
                 readOnly: true,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                // Pass it as a list
                 inputType: TextInputType.number,
                 height: 16,
                 controller: ledgerPageController.amountController,
                 label: 'Enter',
               ),
-              8.heightBox,
-              CustomRichText(
-                text: 'Additional',
-                textColor: primaryColor,
-                showAsterisk: false,
-              ),
-              6.heightBox,
-              CustomDropdown(
-                hintText: 'Select',
-                value: dropdownValueLoan,
-                items: loanTypes,
-                onChanged: (String? val) {
-                  setState(() {
-                    dropdownValueLoan = val ?? 'Select';
-                  });
-                },
-              ),
 
-              8.heightBox,
-              CustomRichText(
-                text: 'Upgrade Plan',
-                textColor: primaryColor,
-                showAsterisk: false,
-              ),
-              10.heightBox,
-              Row(
-                children: [
-                  CustomCheckbox(
-                    label: 'Yes',
-                    value: isUpgradePlanYesSelected,
-                    onChanged: onUpgradePlanChangedYes,
-                    activeColor: Colors.green,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  CustomCheckbox(
-                    label: 'No',
-                    value: isUpgradePlanNoSelected,
-                    onChanged: onUpgradePlanChangedNo,
-                    activeColor: Colors.green,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ],
-              ),
-              20.heightBox,
-              Align(
-                alignment: Alignment.center,
-                child: CustomButton(
-                  onPress: ()=> Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN),
-                  backgroundColor: primaryColor,
-                  textColor: whiteColor,
-                  text: 'Submit',
-                  height: 50,
-                  width: 240,
-                  borderRadius: 24,
+              30.heightBox,
+
+              Visibility(
+                visible: ledgerPageController.switchValue == false,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    'Deactivate'.text.black.bold.size(24).make(),
+                    8.heightBox,
+                    CustomRichText(
+                      text: 'Date',
+                      textColor: primaryColor,
+                      showAsterisk: true,
+                    ),
+                    6.heightBox,
+                    GestureDetector(
+                      onTap: () {
+                        _selectDate(
+                            context); // Call the _selectDate function on tap
+                      },
+                      child: Text("${selectedDate.toLocal()}".split(' ')[0]),
+                    )
+                        .box
+                        .width(double.infinity)
+                        .height(50)
+                        .withDecoration(
+                      BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.1),
+                          width: 1.0,
+                        ),
+                      ),
+                    )
+                        .padding(EdgeInsets.all(10))
+                        .make(),
+                    8.heightBox,
+                    CustomRichText(
+                      text: 'Remark',
+                      textColor: primaryColor,
+                      showAsterisk: true,
+                    ),
+                    6.heightBox,
+                    CustomFormField(
+                      height: 16,
+                      controller: ledgerPageController.remarkController,
+                      label: 'Enter',
+                    ),
+                    20.heightBox,
+                    Align(
+                      alignment: Alignment.center,
+                      child: CustomButton(
+                        // onPress: () => Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN),
+                        onPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                // onConfirm: ,
+                                child: Image.asset('assets/icons/right_tick.png', height: 60, width: 60),
+                                title: "Deactivated",
+                                radius: 12.0, // Set the border radius as needed
+                              );
+                            },
+                          );
+
+                          Future.delayed(Duration(seconds: 2), () {
+                            Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+                          });
+                        },
+                        backgroundColor: primaryColor,
+                        textColor: whiteColor,
+                        text: 'Submit',
+                        height: 50,
+                        width: 240,
+                        borderRadius: 24,
+
+                      ),
+
+                    )
+
+                  ],
                 ),
               )
             ],

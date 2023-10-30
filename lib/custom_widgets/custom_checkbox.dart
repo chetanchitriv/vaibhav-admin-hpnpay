@@ -6,6 +6,8 @@ class CustomCheckbox extends StatelessWidget {
   final ValueChanged<bool?>? onChanged;
   final Color activeColor;
   final BorderRadius borderRadius;
+  final bool isReadOnly; // New field for readonly
+  final bool showLabel;
 
   CustomCheckbox({
     this.value,
@@ -13,14 +15,16 @@ class CustomCheckbox extends StatelessWidget {
     this.onChanged,
     this.activeColor = Colors.green,
     this.borderRadius = BorderRadius.zero,
+    this.isReadOnly = false, // Default value is false
+    this.showLabel = true, // Show label by default
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (onChanged != null) {
-          onChanged!(!(value ?? false)); // Toggle the value
+        if (!isReadOnly && onChanged != null) {
+          onChanged!(!(value ?? false)); // Toggle the value if not read-only
         }
       },
       child: Row(
@@ -31,9 +35,9 @@ class CustomCheckbox extends StatelessWidget {
               borderRadius: borderRadius,
             ),
             value: value ?? false,
-            onChanged: onChanged,
+            onChanged: isReadOnly ? null : onChanged, // Disable onChanged if read-only
           ),
-          if (label != null) Text(label!),
+          if (showLabel && label != null) Text(label!),
         ],
       ),
     );

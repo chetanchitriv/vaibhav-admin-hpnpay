@@ -15,7 +15,7 @@ class AdminDrawerWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: whiteColor,
             ),
-            child: Image.asset('assets/images/logo.jpeg',height: 279,width: 189,),
+            child: Image.asset('assets/images/logo.png',height: 279,width: 189,),
 
           ),
           ListTile(
