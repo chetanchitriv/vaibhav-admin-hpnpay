@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_profile_appbar.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/widgets/company_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class CompanyCreateFormDashboard extends StatelessWidget {
-  CompanyCreateFormDashboard({super.key});
+class CompanyCreateDashboard extends StatelessWidget {
+  CompanyCreateDashboard({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> icons = <String>['assets/icons/create_form.png','assets/icons/create_group.png','assets/icons/create_loan.png','assets/icons/create_level.png'];
@@ -23,31 +24,7 @@ class CompanyCreateFormDashboard extends StatelessWidget {
       backgroundColor: whiteColor,
       key: _scaffoldKey,
       drawer: CompanyDrawerWidget(),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: whiteColor,
-        leading: InkWell(
-            onTap: (){
-              _scaffoldKey.currentState!.openDrawer();
-            },
-            child: Image.asset('assets/icons/drawer.png')),
-        title: Row(
-          children: [
-            Spacer(),
-            ClipRRect(
-              child: Image.asset('assets/images/profile.jpg'),
-            ),
-            8.widthBox,
-
-            'Priya Sharma'.text.color(primaryColor).size(12).make(),
-            4.widthBox,
-            Icon(Icons.keyboard_arrow_down,color: primaryColor,size: 16,),
-            8.widthBox,
-
-            Image.asset('assets/icons/notifications.png')
-          ],
-        ),
-      ),
+      appBar: CustomProfileAppBar(scaffoldKey: _scaffoldKey,),
       body: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -78,12 +55,14 @@ class CompanyCreateFormDashboard extends StatelessWidget {
             ],
           ).box.color(Color(0xFFF4F4F4)).p16.roundedSM.make().onTap(() {
             if (index == 0) {
-              // Navigate to COMPANY_CREATE_FORM_PAGE
               Get.toNamed(Routes.COMPANY_CREATE_FORM_PAGE);
             } else if (index == 1) {
-              // Navigate to COMPANY_CREATE_LEDGER_PAGE
-              // Get.toNamed(Routes.COMPANY_CREATE_LEDGER_PAGE);
-              Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+              Get.toNamed(Routes.COMPANY_CREATE_LEDGER_DASHBOARD);
+            } else if (index == 2) {
+              Get.toNamed(Routes.COMPANY_CREATE_LOAN_DASHBOARD);
+            } else if (index == 3) {
+              Get.toNamed(Routes.COMPANY_CREATE_LEVEL_PAGE);
+
             }
           });
         },

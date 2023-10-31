@@ -5,10 +5,14 @@ import 'package:hpn_pay_project_avestan/screens/auth/phone_auth.dart';
 import 'package:hpn_pay_project_avestan/screens/auth/phone_auth_otp.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_admin_dashboard_screen.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_screen.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_create_form_dashboard.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_create_form_page.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_create_ledger_page.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/view_bank_ledger_profile.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_create_dashboard.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_form/company_create_form_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_ledger/company_create_ledger_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_ledger/view_bank_ledger_profile.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_level/company_create_level_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_create_loan_dashboard.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_create_loan_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_view_loan_page.dart';
 
 part './app_routes.dart';
 
@@ -37,8 +41,8 @@ abstract class AppPages {
       page: () => CompanyDashboardScreen(),
     ),
     GetPage(
-      name: Routes.COMPANY_CREATE_FORM_DASHBOARD,
-      page: () => CompanyCreateFormDashboard(),
+      name: Routes.COMPANY_CREATE_DASHBOARD,
+      page: () => CompanyCreateDashboard(),
     ),
     GetPage(
       name: Routes.COMPANY_CREATE_FORM_PAGE,
@@ -49,12 +53,28 @@ abstract class AppPages {
       page: () => CompanyCreateLedgerPage(),
     ),
     GetPage(
-        name: Routes.COMPANY_ADMIN_DASHBOARD_SCREEN,
-      page: () => CompanyAdminDashBoardScreen(),
+        name: Routes.COMPANY_CREATE_LEDGER_DASHBOARD,
+      page: () => CompanyCreateLedgerDashboard(),
     ),
     GetPage(
         name: Routes.VIEW_BANK_LEDGER_PROFILE_PAGE,
       page: () => ViewBankLedgerProfilePage(),
+    ),
+    GetPage(
+        name: Routes.COMPANY_CREATE_LOAN_DASHBOARD,
+      page: () => CompanyCreateLoanDashboard(),
+    ),
+    GetPage(
+        name: Routes.COMPANY_CREATE_LOAN_PAGE,
+      page: () => CompanyCreateLoanPage(),
+    ),
+    GetPage(
+        name: Routes.COMPANY_VIEW_LOAN_PAGE,
+      page: () => CompanyViewLoanPage(),
+    ),
+    GetPage(
+        name: Routes.COMPANY_CREATE_LEVEL_PAGE,
+      page: () => CompanyCreateLevelPage(),
     ),
 
     

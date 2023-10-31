@@ -583,8 +583,8 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
                             },
                           );
 
-                          Future.delayed(Duration(seconds: 2), () {
-                            Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+                          Future.delayed(Duration(seconds: 1), () {
+                            Get.toNamed(Routes.COMPANY_CREATE_LEDGER_DASHBOARD);
                           });
                         },
                         backgroundColor: primaryColor,

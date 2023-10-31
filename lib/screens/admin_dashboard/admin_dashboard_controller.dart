@@ -13,6 +13,14 @@ class AdminDashboardController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final isButtonLoad = RxBool(false);
 
+  String dropdownPaymentMethod = 'Select';
+
+  // Selected value
+  List<String> paymentMethodTypes = [
+    'Select',
+    'Online',
+    'Offline',
+  ];
   var companyNameController = TextEditingController();
 
   var mailingNameController = TextEditingController();
@@ -44,6 +52,18 @@ class AdminDashboardController extends GetxController {
   final PageController pageController = PageController(initialPage: 0);
 
   List<LicenseData> licenses = [];
+
+  var levelNumberController = TextEditingController();
+  var levelNameController = TextEditingController();
+  var minimumSalaryController = TextEditingController();
+  var maximumSalaryController = TextEditingController();
+  var typeOfLoanController = TextEditingController();
+  var minimumFileController = TextEditingController();
+  var amountTargetController = TextEditingController();
+  var amountIncentiveController = TextEditingController();
+  var rangeFromController = TextEditingController();
+  var rangeToController = TextEditingController();
+  var continuePerformanceController = TextEditingController();
 
   Future<void> createCompany(context) async {
     if (formKey.currentState!.validate()) {
@@ -87,7 +107,8 @@ class AdminDashboardController extends GetxController {
               description: message,
               confirmButtonText: 'Okay',
               onConfirmButtonPressed: () {
-                pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                pageController.animateToPage(0,
+                    duration: Duration(milliseconds: 500), curve: Curves.ease);
                 Get.toNamed(Routes.ADMIN_DASHBOARD_SCREEN);
                 companyNameController.clear();
                 mailingNameController.clear();
@@ -124,6 +145,34 @@ class AdminDashboardController extends GetxController {
               Get.back();
             }).show(context);
       }
+    }
+  }
+
+  Future<List<Map<String, dynamic>>?> fetchCompanyData() async {
+    final url =
+        Uri.parse("${ApiConstants.baseUrl}${ApiConstants.getAllCompanies}");
+
+    try {
+      final headers = ApiService.getHeaders();
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+
+        // Convert the JSON data to a list of maps
+        List<Map<String, dynamic>> companies =
+            List<Map<String, dynamic>>.from(jsonData);
+
+        return companies;
+      } else {
+        // Handle the response error, you can throw an exception or return null as needed
+        return null;
+      }
+    } catch (e) {
+      // Handle any network or API request errors
+      print('Error: $e');
+      return null;
     }
   }
 }

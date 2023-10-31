@@ -13,6 +13,7 @@ class AuthController extends GetxController {
 
   List<TextEditingController> otpControllerList =
   List.generate(6, (index) => TextEditingController());
+  final isButtonLoad = RxBool(false);
 
   void sendOTP(context) async {
     final phone = phoneController.text.trim();

@@ -560,7 +560,7 @@ class _CompanyCreateLedgerPageState extends State<CompanyCreateLedgerPage> {
               Align(
                 alignment: Alignment.center,
                 child: CustomButton(
-                  onPress: ()=> Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN),
+                  onPress: ()=> Get.toNamed(Routes.COMPANY_CREATE_LEDGER_DASHBOARD),
                   backgroundColor: primaryColor,
                   textColor: whiteColor,
                   text: 'Submit',

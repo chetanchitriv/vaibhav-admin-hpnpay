@@ -5,15 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/repository/api.dart';
 import 'package:hpn_pay_project_avestan/repository/api_services.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_form/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_create_loan_data.dart';
 import 'package:http/http.dart' as http;
 
 class CompanyDashboardController extends GetxController {
   final isButtonLoad = RxBool(false);
   bool switchValue = true;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final PageController pageController = PageController(initialPage: 0);
+
 
   var yesNoIndex = 0.obs;
+  var loanCategoryController = TextEditingController();
+  var loanBenefitsController = TextEditingController();
+
 
   var partyNameController = TextEditingController();
 
@@ -53,11 +59,19 @@ class CompanyDashboardController extends GetxController {
   var formNameController = TextEditingController();
 
   String dropdownValueCity = 'Select Group';
+  String dropdownValuePrimaryCategory = 'Select';
 
   // Selected value
   String dropdownValueArea = 'Select Sub-group';
 
   // Selected value
+  List<String> primaryCategories = [
+    'Select',
+    'Category1',
+    'Category2',
+    'Category3',
+    'Category4',
+  ];// Selected value
   List<String> city = [
     'Select Group',
     'Nagpur',
@@ -78,6 +92,10 @@ class CompanyDashboardController extends GetxController {
 
   List<CompanyFormListData> companyFormListData =
       CompanyFormListData.companyFormListData;
+
+  List<CompanyLoanListData> companyLoanListData =
+      CompanyLoanListData.companyLoanListData;
+
   Future<void> createForm(List<CompanyFormListData> selectedFields, context) async {
     if (formKey.currentState!.validate()) {
 

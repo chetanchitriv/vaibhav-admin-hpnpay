@@ -42,15 +42,35 @@ class PhoneAuthScreen extends StatelessWidget {
               hintText: '',
             ),
             40.heightBox,
-            CustomButton(
-              onPress: ()=> authController.sendOTP(context),
-              borderRadius: 4,
-              height: 48,
-              width: double.infinity,
-              text: 'GET OTP',
-              textColor: Colors.white,
-              backgroundColor: primaryColor,
-            )
+
+
+            Obx(() {
+              return Align(
+                alignment: Alignment.center,
+                child: CustomButton(
+                  isLoading: authController.isButtonLoad.value,
+                  onPress: () async{
+                    try {
+                      authController.isButtonLoad.value = true;
+
+                      authController.sendOTP(context);
+
+                      authController.isButtonLoad.value = false;
+
+                    } catch (e) {
+                      // Handle errors or show messages here
+                      authController.isButtonLoad.value = false;
+                      print('Error: $e');
+                    }},
+                  borderRadius: 4,
+                  height: 48,
+                  width: double.infinity,
+                  text: 'GET OTP',
+                  textColor: Colors.white,
+                  backgroundColor: primaryColor,
+                )
+              );
+            })
 
           ],
          ),

@@ -10,16 +10,16 @@ import 'package:velocity_x/velocity_x.dart';
 
 import 'widgets/company_drawer.dart';
 
-class CompanyAdminDashBoardScreen extends StatefulWidget {
-  CompanyAdminDashBoardScreen({super.key});
+class CompanyCreateLedgerDashboard extends StatefulWidget {
+  CompanyCreateLedgerDashboard({super.key});
 
   @override
-  State<CompanyAdminDashBoardScreen> createState() =>
-      _CompanyAdminDashBoardScreenState();
+  State<CompanyCreateLedgerDashboard> createState() =>
+      _CompanyCreateLedgerDashboardState();
 }
 
-class _CompanyAdminDashBoardScreenState
-    extends State<CompanyAdminDashBoardScreen> {
+class _CompanyCreateLedgerDashboardState
+    extends State<CompanyCreateLedgerDashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String dropdownSelectForm = 'Select Form';

@@ -10,7 +10,7 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_form/company_form_data.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyCreateFormPage extends StatefulWidget {

@@ -1,7 +1,8 @@
 class ApiConstants {
   static const String baseUrl = "https://avestan-be.onrender.com";
-  static const String verifyMobile = "/admin/verifyMobile";
-  static const String verifyOtp = "/admin/verifyOtp";
-  static const String createCompany = "/admin/createCompany";
-  static const String createForm = "/admin/create/createForm";
+  static const String verifyMobile = "/api/admin/verifyMobile";
+  static const String verifyOtp = "/api/admin/verifyOtp";
+  static const String createCompany = "/api/admin/createCompany";
+  static const String getAllCompanies = "/api/admin/getAllCompanies";
+  static const String createForm = "/api/admin/create/createForm";
 }

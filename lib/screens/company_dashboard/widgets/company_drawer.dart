@@ -49,7 +49,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                 icon: 'assets/icons/create.png',
                 title: 'Create',
                 onTap: () {
-                  Get.toNamed(Routes.COMPANY_CREATE_FORM_DASHBOARD);
+                  Get.toNamed(Routes.COMPANY_CREATE_DASHBOARD);
 
                   setState(() {
                     createExpanded = !createExpanded;
@@ -84,7 +84,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       title: 'Create Ledger',
                       onTap: () {
                         // Get.toNamed(Routes.COMPANY_CREATE_LEDGER_PAGE);
-                        Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
+                        Get.toNamed(Routes.COMPANY_CREATE_LEDGER_DASHBOARD);
                       },
                       selected: false,
                       leading:
@@ -94,8 +94,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       icon: 'assets/icons/create_loan.png',
                       title: 'Create Loan',
                       onTap: () {
-                        Navigator.pop(context);
-                        // Handle the 'Create Loan' action here
+                        Get.toNamed(Routes.COMPANY_CREATE_LOAN_DASHBOARD);
                       },
                       selected: false,
                       leading:
@@ -105,8 +104,8 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       icon: 'assets/icons/create_level.png',
                       title: 'Create Level',
                       onTap: () {
-                        Navigator.pop(context);
-                        // Handle the 'Create Level' action here
+                        Get.toNamed(Routes.COMPANY_CREATE_LEVEL_PAGE);
+
                       },
                       selected: false,
                       leading:
