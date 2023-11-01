@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_profile_appbar.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/widgets/company_drawer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyDashboardScreen extends StatefulWidget {
-  CompanyDashboardScreen({super.key});
+  String companyName;
+  CompanyDashboardScreen({super.key, required this.companyName});
 
   @override
   State<CompanyDashboardScreen> createState() => _CompanyDashboardScreenState();
@@ -50,31 +52,7 @@ class _CompanyDashboardScreenState extends State<CompanyDashboardScreen> {
       backgroundColor: whiteColor,
       key: _scaffoldKey,
       drawer: CompanyDrawerWidget(),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: whiteColor,
-        leading: InkWell(
-            onTap: (){
-              _scaffoldKey.currentState!.openDrawer();
-            },
-            child: Image.asset('assets/icons/drawer.png')),
-        title: Row(
-          children: [
-            Spacer(),
-            ClipRRect(
-              child: Image.asset('assets/images/profile.jpg'),
-            ),
-            8.widthBox,
-
-            'Priya Sharma'.text.color(primaryColor).size(12).make(),
-            4.widthBox,
-            Icon(Icons.keyboard_arrow_down,color: primaryColor,size: 16,),
-            8.widthBox,
-
-            Image.asset('assets/icons/notifications.png')
-          ],
-        ),
-      ),
+      appBar: CustomProfileAppBar(scaffoldKey: _scaffoldKey,),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
@@ -119,7 +97,15 @@ class _CompanyDashboardScreenState extends State<CompanyDashboardScreen> {
               ),
               20.heightBox,
 
-              'Employee Composition'.text.extraBold.extraBlack.make(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  'Employee Composition of'.text.extraBold.extraBlack.make(),
+                  3.widthBox,
+                  widget.companyName.text.extraBold.color(primaryColor).size(18).make(),
+                ],
+              ),
               SfCircularChart(
                   series: <CircularSeries>[
                     // Render pie chart

@@ -49,6 +49,8 @@ const Color blackColor = Colors.black;
 final Color? kSubtitleColor = Colors.grey[600];
 // final Color kSecondaryColor = Colors.white;
 final Color? kBorderColor = Colors.grey[200];
+final Color shimmerBaseColor = Colors.grey.withOpacity(0.4);
+final Color shimmerHighlightColor = Colors.grey.withOpacity(0.7);
 
 final TextStyle kTitleStyle = TextStyle(
   fontSize: 15,

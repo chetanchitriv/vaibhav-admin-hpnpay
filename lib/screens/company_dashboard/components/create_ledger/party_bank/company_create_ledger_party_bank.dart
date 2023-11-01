@@ -14,15 +14,15 @@ import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashbo
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class CompanyCreateLedgerPage extends StatefulWidget {
-  CompanyCreateLedgerPage({super.key});
+class CompanyCreateLedgerPartyBankPage extends StatefulWidget {
+  CompanyCreateLedgerPartyBankPage({super.key});
 
   @override
-  State<CompanyCreateLedgerPage> createState() =>
-      _CompanyCreateLedgerPageState();
+  State<CompanyCreateLedgerPartyBankPage> createState() =>
+      _CompanyCreateLedgerPartyBankPageState();
 }
 
-class _CompanyCreateLedgerPageState extends State<CompanyCreateLedgerPage> {
+class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPartyBankPage> {
   var ledgerPageController = Get.put(CompanyDashboardController());
   DateTime selectedDate = DateTime.now();
 

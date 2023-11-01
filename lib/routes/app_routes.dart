@@ -10,9 +10,15 @@ abstract class Routes {
   static const COMPANY_DASHBOARD_SCREEN = _Paths.COMPANY_DASHBOARD_SCREEN;
   static const COMPANY_CREATE_DASHBOARD = _Paths.COMPANY_CREATE_DASHBOARD;
   static const COMPANY_CREATE_FORM_PAGE = _Paths.COMPANY_CREATE_FORM_PAGE;
-  static const COMPANY_CREATE_LEDGER_PAGE = _Paths.COMPANY_CREATE_LEDGER_PAGE;
+
+  static const COMPANY_CREATE_LEDGER_PARTY_BANK_PAGE = _Paths.COMPANY_CREATE_LEDGER_PARTY_BANK_PAGE;
   static const VIEW_BANK_LEDGER_PROFILE_PAGE = _Paths.VIEW_BANK_LEDGER_PROFILE_PAGE;
   static const COMPANY_CREATE_LEDGER_DASHBOARD = _Paths.COMPANY_CREATE_LEDGER_DASHBOARD;
+  static const CREATE_lEDGER_EMPLOYEE_AADHARKYC_PAGE = _Paths.CREATE_lEDGER_EMPLOYEE_AADHARKYC_PAGE;
+  static const CREATE_lEDGER_EMPLOYEE_EKYC_PAGEVIEW = _Paths.CREATE_lEDGER_EMPLOYEE_EKYC_PAGEVIEW;
+  static const CREATE_lEDGER_EMPLOYEE_MANUAL_KYC_PAGEVIEW = _Paths.CREATE_lEDGER_EMPLOYEE_MANUAL_KYC_PAGEVIEW;
+  static const VIEW_lEDGER_EMPLOYEE_PROFILE = _Paths.VIEW_lEDGER_EMPLOYEE_PROFILE;
+
   static const COMPANY_CREATE_LOAN_DASHBOARD = _Paths.COMPANY_CREATE_LOAN_DASHBOARD;
   static const COMPANY_CREATE_LOAN_PAGE = _Paths.COMPANY_CREATE_LOAN_PAGE;
   static const COMPANY_VIEW_LOAN_PAGE = _Paths.COMPANY_VIEW_LOAN_PAGE;
@@ -29,9 +35,15 @@ abstract class _Paths {
   static const COMPANY_DASHBOARD_SCREEN = '/companyDashboard';
   static const COMPANY_CREATE_DASHBOARD = '/companyCreateDashboard';
   static const COMPANY_CREATE_FORM_PAGE = '/companyCreateFormPage';
-  static const COMPANY_CREATE_LEDGER_PAGE = '/companyCreateLedgerPage';
+
+  static const COMPANY_CREATE_LEDGER_PARTY_BANK_PAGE = '/companyCreateLedgerPartyBankPage';
   static const VIEW_BANK_LEDGER_PROFILE_PAGE = '/viewBankLedgerProfilePage';
   static const COMPANY_CREATE_LEDGER_DASHBOARD = '/companyCreateLedgerDashboardScreen';
+  static const CREATE_lEDGER_EMPLOYEE_AADHARKYC_PAGE = '/companyCreateLedgerEmployeeAadharKycPage';
+  static const CREATE_lEDGER_EMPLOYEE_EKYC_PAGEVIEW = '/companyCreateLedgerEmployeeEkycPageView';
+  static const CREATE_lEDGER_EMPLOYEE_MANUAL_KYC_PAGEVIEW = '/companyCreateLedgerEmployeeManualKycPageView';
+  static const VIEW_lEDGER_EMPLOYEE_PROFILE = '/viewLedgerEmployeeProfile';
+
   static const COMPANY_CREATE_LOAN_DASHBOARD = '/companyCreateLoanDashboardScreen';
   static const COMPANY_CREATE_LOAN_PAGE = '/companyCreateLoanPage';
   static const COMPANY_VIEW_LOAN_PAGE = '/companyViewLoanPage';

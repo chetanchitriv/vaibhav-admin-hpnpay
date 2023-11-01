@@ -83,11 +83,11 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
     'Wardha',
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    loadSwitchState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   loadSwitchState();
+  // }
 
   void loadSwitchState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -116,7 +116,7 @@ class _CompanyCreateLedgerPageState extends State<ViewBankLedgerProfilePage> {
               setState(() {
                 ledgerPageController.switchValue = newValue;
               });
-              saveSwitchState(newValue);
+              // saveSwitchState(newValue);
             },
             activeColor: primaryColor,
             inactiveTrackColor: Colors.grey,

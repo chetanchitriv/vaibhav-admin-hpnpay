@@ -21,6 +21,7 @@ dependencies:
   syncfusion_flutter_gauges: ^23.1.41
   syncfusion_flutter_charts: ^23.1.41
   blurry: ^1.4.2
+  shimmer: ^3.0.0
   http: ^1.1.0
 
 dev_dependencies:
