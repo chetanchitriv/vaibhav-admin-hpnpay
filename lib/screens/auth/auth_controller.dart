@@ -17,13 +17,13 @@ class AuthController extends GetxController {
 
   void sendOTP(context) async {
     final phone = phoneController.text.trim();
-    final url = Uri.parse("${ApiConstants.baseUrl}${ApiConstants.verifyMobile}");
-    final body = ApiService.getRequestBody({"mobileNumber": phone});
+    final url = Uri.parse('https://avestan-be.onrender.com/api/admin/verifyMobile');
+    final body = ApiService.getRequestBody({"mobileNumber": int.parse(phone)});
     final headers = ApiService.getHeaders();
 
     final response = await http.post(url, headers: headers, body: body);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = json.decode(response.body);
       final success = responseData["success"];
       final message = responseData["message"];

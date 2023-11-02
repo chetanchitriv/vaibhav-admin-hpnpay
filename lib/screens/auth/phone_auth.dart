@@ -44,24 +44,11 @@ class PhoneAuthScreen extends StatelessWidget {
             40.heightBox,
 
 
-            Obx(() {
-              return Align(
+              Align(
                 alignment: Alignment.center,
                 child: CustomButton(
-                  isLoading: authController.isButtonLoad.value,
-                  onPress: () async{
-                    try {
-                      authController.isButtonLoad.value = true;
-
-                      authController.sendOTP(context);
-
-                      authController.isButtonLoad.value = false;
-
-                    } catch (e) {
-                      // Handle errors or show messages here
-                      authController.isButtonLoad.value = false;
-                      print('Error: $e');
-                    }},
+                  // onPress: ()=>  authController.sendOTP(context),
+                  onPress: ()=>  Get.toNamed(Routes.PHONE_AUTH_OTP_SCREEN),
                   borderRadius: 4,
                   height: 48,
                   width: double.infinity,
@@ -69,8 +56,8 @@ class PhoneAuthScreen extends StatelessWidget {
                   textColor: Colors.white,
                   backgroundColor: primaryColor,
                 )
-              );
-            })
+              )
+
 
           ],
          ),

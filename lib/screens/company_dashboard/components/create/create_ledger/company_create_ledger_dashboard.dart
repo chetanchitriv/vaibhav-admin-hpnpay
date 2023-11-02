@@ -7,9 +7,8 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_dropdown.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_profile_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/widgets/company_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
-
-import '../../widgets/company_drawer.dart';
 
 class CompanyCreateLedgerDashboard extends StatefulWidget {
   CompanyCreateLedgerDashboard({super.key});
@@ -263,7 +262,7 @@ class _CompanyCreateLedgerDashboardState
                           Spacer(),
                           CustomButton(
                             onPress: () =>
-                                Get.toNamed(Routes.VIEW_BANK_LEDGER_PROFILE_PAGE),
+                                Get.toNamed(Routes.VIEW_lEDGER_DISTRIBUTOR_PROFILE),
                             borderRadius: 3,
                             padding: EdgeInsets.all(4),
                             width: 100,
@@ -305,7 +304,7 @@ class _CompanyCreateLedgerDashboardState
                           Spacer(),
                           CustomButton(
                             onPress: () =>
-                                Get.toNamed(Routes.VIEW_BANK_LEDGER_PROFILE_PAGE),
+                                Get.toNamed(Routes.VIEW_lEDGER_AGENT_PROFILE),
                             borderRadius: 3,
                             padding: EdgeInsets.all(4),
                             width: 100,
@@ -381,8 +380,12 @@ class _CompanyCreateLedgerDashboardState
     } else if (selectedForm == 'Employee') {
       // Navigate to the "EmployeeScreen"
       Get.toNamed(Routes.CREATE_lEDGER_EMPLOYEE_AADHARKYC_PAGE);
+    } else if (selectedForm == 'Distributor') {
+      // Navigate to the "DistributorScreen"
+      Get.toNamed(Routes.CREATE_lEDGER_DISTRIBUTOR_AADHARKYC_PAGE);
     } else if (selectedForm == 'Agent') {
       // Navigate to the "AgentScreen"
+      Get.toNamed(Routes.CREATE_lEDGER_AGENT_AADHARKYC_PAGE);
     }
   }
 }

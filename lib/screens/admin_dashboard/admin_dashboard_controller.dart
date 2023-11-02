@@ -21,6 +21,7 @@ class AdminDashboardController extends GetxController {
     'Online',
     'Offline',
   ];
+
   var companyNameController = TextEditingController();
 
   var mailingNameController = TextEditingController();

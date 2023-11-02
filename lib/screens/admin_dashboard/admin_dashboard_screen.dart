@@ -122,7 +122,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                               )
                                   .make()
                                   .onTap(() {
-                                Get.to(CompanyDashboardScreen(companyName: data['companyName']));
+                                Get.to(()=>CompanyDashboardScreen(companyName: data['companyName']));
+                                // Get.toNamed(Routes.COMPANY_DASHBOARD_SCREEN);
                               }),
                               20.heightBox,
                             ],

@@ -12,21 +12,22 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart'
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_ledger/company_create_ledger_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/company_create_ledger_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/distributor/company_distributor_controller.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class ViewLedgerEmployeeProfilePage extends StatefulWidget {
-  ViewLedgerEmployeeProfilePage({super.key});
+class ViewLedgerDistributorProfilePage extends StatefulWidget {
+  ViewLedgerDistributorProfilePage({super.key});
 
   @override
-  State<ViewLedgerEmployeeProfilePage> createState() =>
-      _ViewLedgerEmployeeProfilePageState();
+  State<ViewLedgerDistributorProfilePage> createState() =>
+      _ViewLedgerDistributorProfilePageState();
 }
 
-class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfilePage> {
-  var createLedgerEmployeeController = Get.put(CompanyCreateLedgerController());
+class _ViewLedgerDistributorProfilePageState extends State<ViewLedgerDistributorProfilePage> {
+  var createLedgerDistributorController = Get.put(CompanyDistributorController());
   DateTime selectedDate = DateTime.now();
 
   ImageSelector profile = ImageSelector();
@@ -93,7 +94,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
   void loadSwitchState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      createLedgerEmployeeController.switchValue = prefs.getBool('switchValue') ?? false;
+      createLedgerDistributorController.switchValue = prefs.getBool('switchValue') ?? false;
     });
   }
 
@@ -112,10 +113,10 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               .px4(),
           backgroundColor: whiteColor,
           child: Switch(
-            value: createLedgerEmployeeController.switchValue,
+            value: createLedgerDistributorController.switchValue,
             onChanged: (bool newValue) {
               setState(() {
-                createLedgerEmployeeController.switchValue = newValue;
+                createLedgerDistributorController.switchValue = newValue;
               });
               // saveSwitchState(newValue);
             },
@@ -149,7 +150,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                         child: CustomFormField(
                           readOnly: true,
                           height: 16,
-                          controller: createLedgerEmployeeController.partyNameController,
+                          controller: createLedgerDistributorController.partyNameController,
                           label: 'Party name',
                         ),
                       ),
@@ -165,7 +166,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                         child: CustomFormField(
                           readOnly: true,
                           height: 16,
-                          controller: createLedgerEmployeeController
+                          controller: createLedgerDistributorController
                               .displayNameController,
                           label: 'Display name',
                         ),
@@ -190,7 +191,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.addressController,
+                controller: createLedgerDistributorController.addressController,
                 label: 'Address',
               ),
               8.heightBox,
@@ -204,7 +205,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                 readOnly: true,
 
                 height: 16,
-                controller: createLedgerEmployeeController.stateController,
+                controller: createLedgerDistributorController.stateController,
                 label: 'State',
               ),
               8.heightBox,
@@ -227,7 +228,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                           readOnly: true,
                           height: 16,
                           controller:
-                          createLedgerEmployeeController.cityController,
+                          createLedgerDistributorController.cityController,
                           label: 'City',
                         ),
                       ),
@@ -253,7 +254,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                           // Pass it as a list
                           inputType: TextInputType.number,
                           height: 16,
-                          controller: createLedgerEmployeeController.pinCodeController,
+                          controller: createLedgerDistributorController.pinCodeController,
                           label: 'Pincode',
                         ),
                       ),
@@ -276,7 +277,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                 // Pass it as a list
                 inputType: TextInputType.number,
                 height: 16,
-                controller: createLedgerEmployeeController.mobileNumberController,
+                controller: createLedgerDistributorController.mobileNumberController,
                 label: 'Enter',
               ),
               8.heightBox,
@@ -289,7 +290,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.emailAddressController,
+                controller: createLedgerDistributorController.emailAddressController,
                 label: 'Enter',
               ),
 
@@ -303,7 +304,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.panCardController,
+                controller: createLedgerDistributorController.panCardController,
                 label: 'Pan Number',
               ),
               8.heightBox,
@@ -352,7 +353,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.bankNameController,
+                controller: createLedgerDistributorController.bankNameController,
                 label: 'Enter',
               ),
               8.heightBox,
@@ -365,7 +366,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.bankHolderNameController,
+                controller: createLedgerDistributorController.bankHolderNameController,
                 label: 'Enter',
               ),
               8.heightBox,
@@ -378,7 +379,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.accountNumberController,
+                controller: createLedgerDistributorController.accountNumberController,
                 label: 'Enter',
               ),
               8.heightBox,
@@ -391,7 +392,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.ifscCodeController,
+                controller: createLedgerDistributorController.ifscCodeController,
                 label: 'Enter',
               ),
               8.heightBox,
@@ -404,7 +405,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.salaryController,
+                controller: createLedgerDistributorController.salaryController,
                 label: 'Level 3',
               ),
               8.heightBox,
@@ -417,7 +418,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.salaryController,
+                controller: createLedgerDistributorController.salaryController,
                 label: 'By default',
               ),
               8.heightBox,
@@ -430,7 +431,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.joiningDateController,
+                controller: createLedgerDistributorController.joiningDateController,
                 label: 'By default',
               ),
 
@@ -446,7 +447,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.salaryController,
+                controller: createLedgerDistributorController.salaryController,
                 label: 'Personal Loan',
               ),
               8.heightBox,
@@ -459,21 +460,69 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.minimumFileController,
+                controller: createLedgerDistributorController.minimumFileController,
                 label: 'Enter',
               ),
+
               8.heightBox,
               CustomRichText(
-                text: 'Amount',
+                text: 'Range',
                 textColor: primaryColor,
                 showAsterisk: true,
               ),
               6.heightBox,
-              CustomFormField(
-                readOnly: true,
-                height: 16,
-                controller: createLedgerEmployeeController.amountController,
-                label: 'Enter',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomRichText(
+                        text: 'From',
+                        textColor: primaryColor,
+                        showAsterisk: false,
+                      ),
+                      2.heightBox,
+                      SizedBox(
+                        width: 153,
+                        child: CustomFormField(
+                          readOnly: true,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                          inputType: TextInputType.number,
+                          height: 16,
+                          controller:
+                          createLedgerDistributorController.rangeFromController,
+                          label: 'Amount in Lakh',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomRichText(
+                        text: 'To',
+                        textColor: primaryColor,
+                        showAsterisk: false,
+                      ),
+                      2.heightBox,
+                      SizedBox(
+                        width: 153,
+                        child: CustomFormField(
+                          readOnly: true,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                          inputType: TextInputType.number,
+                          height: 16,
+                          controller:createLedgerDistributorController.rangeToController,
+
+                          label: 'Amount in Lakh',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               8.heightBox,
               CustomRichText(
@@ -485,7 +534,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.salaryController,
+                controller: createLedgerDistributorController.salaryController,
                 label: 'Method of Payment',
               ),
               8.heightBox,
@@ -498,10 +547,10 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
               CustomFormField(
                 readOnly: true,
                 height: 16,
-                controller: createLedgerEmployeeController.payAmountController,
+                controller: createLedgerDistributorController.amountController,
                 label: 'Enter',
               ),
-
+              
               8.heightBox,
 
               CustomRichText(
@@ -520,7 +569,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                       inputType: TextInputType.number,
                       height: 16,
                       controller:
-                      createLedgerEmployeeController.continuePerformanceController,
+                      createLedgerDistributorController.continuePerformanceController,
                       label: 'Enter',
                     ),
                   ),
@@ -533,13 +582,13 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                 elevation: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: "(If employee continues with the target in the given months then they will be promote for next level of if they will not continues with the target then they will be promote down)".text.makeCentered(),
+                  child: "(If Distributor continues with the target in the given months then they will be promote for next level of if they will not continues with the target then they will be promote down)".text.makeCentered(),
                 ),
               ),
               30.heightBox,
 
               Visibility(
-                visible: createLedgerEmployeeController.switchValue == false,
+                visible: createLedgerDistributorController.switchValue == false,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,7 +630,7 @@ class _ViewLedgerEmployeeProfilePageState extends State<ViewLedgerEmployeeProfil
                     6.heightBox,
                     CustomFormField(
                       height: 16,
-                      controller: createLedgerEmployeeController.remarkController,
+                      controller: createLedgerDistributorController.remarkController,
                       label: 'Enter',
                     ),
                     20.heightBox,

@@ -10,7 +10,7 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_form/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_form/company_form_data.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyCreateFormPage extends StatefulWidget {
@@ -22,6 +22,31 @@ class CompanyCreateFormPage extends StatefulWidget {
 
 class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
   var createFormController = Get.put(CompanyDashboardController());
+
+
+  String dropdownValueCity = 'Select Group';
+
+  // Selected value
+  String dropdownValueArea = 'Select Sub-group';
+
+  List<String> city = [
+    'Select Group',
+    'Nagpur',
+    'Pune',
+    'Nashik',
+    'Amravati',
+    'Wardha',
+  ];
+
+  List<String> area = [
+    'Select Sub-group',
+    'Trimurti Nagar',
+    'Pratap nagar',
+    'Shrawan nagar',
+    'Kharbi',
+    'Dighori',
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +85,11 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
                 6.heightBox,
                 CustomDropdown(
                   hintText: 'Select Group',
-                  value: createFormController.dropdownValueCity,
-                  items: createFormController.city,
+                  value: dropdownValueCity,
+                  items: city,
                   onChanged: (String? val) {
                     setState(() {
-                      createFormController.dropdownValueCity = val ?? 'Select Group';
+                      dropdownValueCity = val ?? 'Select Group';
                     });
                   },
                 ),
@@ -77,11 +102,11 @@ class _CompanyCreateFormPageState extends State<CompanyCreateFormPage> {
                 6.heightBox,
                 CustomDropdown(
                   hintText: 'Select Sub-group',
-                  value: createFormController.dropdownValueArea,
-                  items: createFormController.area,
+                  value: dropdownValueArea,
+                  items: area,
                   onChanged: (String? val) {
                     setState(() {
-                      createFormController.dropdownValueArea = val ?? 'Select Sub-group';
+                      dropdownValueArea = val ?? 'Select Sub-group';
                     });
                   },
                 ),

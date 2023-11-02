@@ -8,8 +8,8 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyDashboardScreen extends StatefulWidget {
-  String companyName;
-  CompanyDashboardScreen({super.key, required this.companyName});
+  String? companyName;
+  CompanyDashboardScreen({super.key, this.companyName});
 
   @override
   State<CompanyDashboardScreen> createState() => _CompanyDashboardScreenState();
@@ -103,9 +103,13 @@ class _CompanyDashboardScreenState extends State<CompanyDashboardScreen> {
                 children: [
                   'Employee Composition of'.text.extraBold.extraBlack.make(),
                   3.widthBox,
-                  widget.companyName.text.extraBold.color(primaryColor).size(18).make(),
+                  if (widget.companyName != null && widget.companyName!.isNotEmpty)
+                    Text(widget.companyName!)
+                  else
+                    const Text('HPN PAY')
                 ],
               ),
+
               SfCircularChart(
                   series: <CircularSeries>[
                     // Render pie chart

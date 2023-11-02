@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_create_loan_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_create_loan_data.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
@@ -13,7 +13,7 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_form/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_form/company_form_data.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyCreateLoanPage extends StatefulWidget {

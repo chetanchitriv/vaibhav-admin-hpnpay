@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CompanyCreateLedgerController extends GetxController{
+class CompanyDistributorController extends GetxController{
   final isButtonLoad = RxBool(false);
   bool switchValue = true;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -47,5 +47,11 @@ class CompanyCreateLedgerController extends GetxController{
   var emailController = TextEditingController();
   var mobileController = TextEditingController();
   var addressEmployeeController = TextEditingController();
+
+  var rangeFromController = TextEditingController();
+  var rangeToController = TextEditingController();
+  var amountIncentiveController = TextEditingController();
+
+  var aadharNumberController = TextEditingController();
 
 }

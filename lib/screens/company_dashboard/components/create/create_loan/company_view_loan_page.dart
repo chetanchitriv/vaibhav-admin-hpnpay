@@ -4,7 +4,7 @@ import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_loan/company_view_loan_in_detail_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_view_loan_in_detail_page.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CompanyViewLoanPage extends StatelessWidget {
@@ -60,7 +60,7 @@ class CompanyViewLoanPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomButton(
-                          onPress: () { Get.to(CompanyViewLoanInDetailPage(title: loanTypeList[index],));},
+                          onPress: () { Get.to(()=>CompanyViewLoanInDetailPage(title: loanTypeList[index],));},
                           text: loanTypeList[index],
                           textColor: whiteColor,
                           backgroundColor: primaryColor,

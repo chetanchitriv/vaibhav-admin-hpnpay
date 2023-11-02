@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 
-class CustomProfileAppBar extends StatelessWidget implements PreferredSizeWidget{
+class CustomProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final PreferredSizeWidget? bottom;
+  final double defaultAppBarHeight;
+
+  CustomProfileAppBar({required this.scaffoldKey, this.bottom, this.defaultAppBarHeight = kToolbarHeight});
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
-  CustomProfileAppBar({required this.scaffoldKey});
+  Size get preferredSize => Size.fromHeight(defaultAppBarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class CustomProfileAppBar extends StatelessWidget implements PreferredSizeWidget
           Image.asset('assets/icons/notifications.png'),
         ],
       ),
+      bottom: bottom,
     );
   }
 }

@@ -40,7 +40,6 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   onTap: () {
                     // Get.toNamed(Routes.COMPANY_ADMIN_DASHBOARD_SCREEN);
                     Get.toNamed(Routes.COMPANY_DASHBOARD_SCREEN);
-
                   },
                   selected: false,
                   leading: false),
@@ -105,7 +104,6 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                       title: 'Create Level',
                       onTap: () {
                         Get.toNamed(Routes.COMPANY_CREATE_LEVEL_PAGE);
-
                       },
                       selected: false,
                       leading:
@@ -117,7 +115,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   icon: 'assets/icons/career.png',
                   title: 'Career',
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.toNamed(Routes.COMPANY_CAREER_PAGE_VIEW);
                   },
                   selected: false,
                   leading: false),

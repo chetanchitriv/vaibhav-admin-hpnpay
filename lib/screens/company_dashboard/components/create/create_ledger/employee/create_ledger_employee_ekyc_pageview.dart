@@ -12,7 +12,8 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart'
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
-import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create_ledger/company_create_ledger_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/company_create_ledger_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/employee/company_employee_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/widgets/company_drawer.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -27,7 +28,7 @@ class CreateLedgerEmployeeEkycPageView extends StatefulWidget {
 
 class _CreateLedgerEmployeeEkycPageViewState
     extends State<CreateLedgerEmployeeEkycPageView> {
-  var createLedgerEmployeeController = Get.put(CompanyCreateLedgerController());
+  var createLedgerEmployeeController = Get.put(CompanyEmployeeController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
 

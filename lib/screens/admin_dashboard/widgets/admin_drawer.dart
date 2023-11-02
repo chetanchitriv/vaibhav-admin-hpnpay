@@ -40,7 +40,7 @@ class AdminDrawerWidget extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -57,7 +57,7 @@ class AdminDrawerWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/icons/danger.png'),
+                      Image.asset('assets/icons/danger.png',color: Colors.white,),
                       5.widthBox,
                       'Report'.text.white.make()
                     ],
