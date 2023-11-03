@@ -3,6 +3,8 @@ import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/components/create_company_page.dart';
 import 'package:hpn_pay_project_avestan/screens/auth/phone_auth.dart';
 import 'package:hpn_pay_project_avestan/screens/auth/phone_auth_otp.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/balancesheet/company_balance_sheet_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/career/company_career_applications_list.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/agent/create_ledger_agent_aadharkyc_page.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/agent/create_ledger_agent_ekyc_pageview.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/agent/create_ledger_agent_manual_kyc_pageview.dart';
@@ -25,6 +27,8 @@ import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/cre
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_create_loan_dashboard.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_create_loan_page.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_view_loan_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/profit_loss/company_profit_loss_page.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/report/company_report_dashboard.dart';
 
 import '../screens/company_dashboard/components/career/company_career_page.dart';
 
@@ -173,5 +177,31 @@ abstract class AppPages {
       name: Routes.COMPANY_CAREER_PAGE_VIEW,
       page: () => CompanyCareerPage(),
     ),
+    GetPage(
+      name: Routes.COMPANY_CAREER_APPLICATIONS_LIST,
+      page: () => CompanyCareerApplicationsList(),
+    ),
+
+    //balancesheet
+
+    GetPage(
+      name: Routes.COMPANY_BALANCE_SHEET,
+      page: () => CompanyBalanceSheet(),
+    ),
+
+    // profit and loss
+
+    GetPage(
+      name: Routes.COMPANY_PROFIT_LOSS_PAGE,
+      page: () => CompanyProfitLossPage(),
+    ),
+
+    // report
+
+    GetPage(
+      name: Routes.COMPANY_REPORT_DASHBOARD_PAGE,
+      page: () => CompanyReportDashboard(),
+    ),
+
   ];
 }

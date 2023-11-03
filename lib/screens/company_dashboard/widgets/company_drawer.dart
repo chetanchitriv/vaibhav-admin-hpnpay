@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
@@ -13,6 +14,7 @@ class CompanyDrawerWidget extends StatefulWidget {
 
 class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
   bool createExpanded = false;
+  bool reportExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +126,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   icon: 'assets/icons/balancesheet.png',
                   title: 'Balancesheet',
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.toNamed(Routes.COMPANY_BALANCE_SHEET);
                   },
                   selected: false,
                   leading: false),
@@ -133,7 +135,7 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   icon: 'assets/icons/profitloss.png',
                   title: 'Profit & Loss',
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.toNamed(Routes.COMPANY_PROFIT_LOSS_PAGE);
                   },
                   selected: false,
                   leading: false),
@@ -142,10 +144,87 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                   icon: 'assets/icons/report.png',
                   title: 'Report',
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.toNamed(Routes.COMPANY_REPORT_DASHBOARD_PAGE);
+                    setState(() {
+                      reportExpanded = !reportExpanded;
+                    });
                   },
-                  selected: false,
-                  leading: false),
+                selected: false,
+                leading: false,
+                trailing: Icon(
+                  reportExpanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  color: blackColor,
+                  size: 26,
+                ),
+              ),
+              5.heightBox,
+              if (reportExpanded)
+                Column(
+                  children: [
+                    buildListTile(
+                      icon: 'assets/icons/report/trial_balance.png',
+                      title: 'Trial Balance',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                    buildListTile(
+                      icon: 'assets/icons/report/day_book.png',
+                      title: 'Day Book',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                    buildListTile(
+                      icon: 'assets/icons/report/cash_flow.png',
+                      title: 'Day Book',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                    buildListTile(
+                      icon: 'assets/icons/report/funds_flow.png',
+                      title: 'Funds Flow',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                    buildListTile(
+                      icon: 'assets/icons/report/account_book.png',
+                      title: 'Account book',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                    buildListTile(
+                      icon: 'assets/icons/report/statement_of_ac.png',
+                      title: 'Statement of Accounts',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      selected: false,
+                      leading:
+                      true, // Change this to true for the selected item
+                    ),
+                  ],
+                ),
               5.heightBox,
               Container(
                 height: 1,
@@ -205,7 +284,13 @@ class _CompanyDrawerWidgetState extends State<CompanyDrawerWidget> {
                           'Report'.text.white.make()
                         ],
                       ),
-                    )
+                    ),
+                    10.heightBox,
+                    InkWell(
+                      onTap: (){
+                        Get.toNamed(Routes.ADMIN_DASHBOARD_SCREEN);
+                      },
+                        child: 'Go to Admin Dashbored'.text.make())
                   ],
                 )
                     .box

@@ -60,6 +60,19 @@ abstract class Routes {
   // career view
 
   static const COMPANY_CAREER_PAGE_VIEW = _Paths.COMPANY_CAREER_PAGE_VIEW;
+  static const COMPANY_CAREER_APPLICATIONS_LIST = _Paths.COMPANY_CAREER_APPLICATIONS_LIST;
+
+  //balancesheet
+
+  static const COMPANY_BALANCE_SHEET = _Paths.COMPANY_BALANCE_SHEET;
+
+  //profit and loss
+
+  static const COMPANY_PROFIT_LOSS_PAGE = _Paths.COMPANY_PROFIT_LOSS_PAGE;
+
+  //report
+
+  static const COMPANY_REPORT_DASHBOARD_PAGE = _Paths.COMPANY_REPORT_DASHBOARD_PAGE;
 }
 
 abstract class _Paths {
@@ -120,5 +133,18 @@ abstract class _Paths {
   // career view
 
   static const COMPANY_CAREER_PAGE_VIEW = '/companyCareerPageView';
+  static const COMPANY_CAREER_APPLICATIONS_LIST = '/companyCareerApplicationsList';
+
+  //balancesheet
+
+  static const COMPANY_BALANCE_SHEET = '/companyBalanceSheetView';
+
+  //profit and loss
+
+  static const COMPANY_PROFIT_LOSS_PAGE = '/companyProfitLossView';
+
+  //report
+
+  static const COMPANY_REPORT_DASHBOARD_PAGE = '/companyReportView';
 
 }

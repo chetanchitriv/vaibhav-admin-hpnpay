@@ -30,7 +30,7 @@ Widget buildListTile({
             .roundedSM
             .make(),
         5.widthBox,
-        title.text.size(16).make(),
+        Expanded(child: title.text.size(16).make()),
       ],
     ),
     onTap: onTap,

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/constants/app_lists.dart';
+import 'package:hpn_pay_project_avestan/constants/app_strings.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
+import 'package:hpn_pay_project_avestan/custom_widgets/custom_dropdown.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
@@ -92,10 +95,15 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: adminDashboardController.stateController,
-            label: 'State',
+          CustomDropdown(
+            hintText: 'Select State',
+            value: dropdownValueState,
+            items: state,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueState = val ?? 'Select State';
+              });
+            },
           ),
           6.heightBox,
           CustomRichText(
@@ -104,10 +112,15 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: adminDashboardController.cityController,
-            label: 'City',
+          CustomDropdown(
+            hintText: 'Select City',
+            value: dropdownValueCity,
+            items: city,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueCity = val ?? 'Select City';
+              });
+            },
           ),
           8.heightBox,
           CustomRichText(
@@ -132,7 +145,6 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
           ),
           6.heightBox,
           CustomFormField(
-            length: 10,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
             inputType: TextInputType.number,
             height: 16,
@@ -322,11 +334,12 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
           ),
           6.heightBox,
           CustomFormField(
-            height: 16,
+            textCapitalizationEnabled: true,
+            customValidator: validatePancard,
+            length: 10,
             controller: adminDashboardController.panCardController,
             label: 'Pan Card Number',
           ),
-
           6.heightBox,
           SizedBox(
             width: 80,
@@ -389,7 +402,7 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
     );
   }
 
-  void addLicenseField() {
+  void addLicenseField() {  
     adminDashboardController.licenses.add(LicenseData(
       licenseNameListController: TextEditingController(),
       licenseNumberListController: TextEditingController(),
@@ -406,4 +419,15 @@ class LicenseData {
     required this.licenseNameListController,
     required this.licenseNumberListController,
   });
+}
+
+String? validatePancard(String value) {
+  String pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$';
+  RegExp regExp = RegExp(pattern);
+  if (value.isEmpty) {
+    return 'Please Enter Pancard Number';
+  } else if (!regExp.hasMatch(value)) {
+    return 'Please Enter Valid Pancard Number';
+  }
+  return null; // Return null for valid input
 }

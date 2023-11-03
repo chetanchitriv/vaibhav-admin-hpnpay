@@ -14,9 +14,11 @@ Widget CustomFormField({
   Widget? child,
   TextInputType? inputType,
   List<TextInputFormatter>? inputFormatters,
+  bool textCapitalizationEnabled = false,
   bool readOnly = false, // Make it optional
   int? length,
   bool validator = true,
+  String? Function(String)? customValidator,
 }) {
   if (length != null) {
     // If length is specified, add a LengthLimitingTextInputFormatter
@@ -24,7 +26,9 @@ Widget CustomFormField({
     inputFormatters.add(LengthLimitingTextInputFormatter(length));
   }
   return TextFormField(
-    obscureText: obscureText,
+    textCapitalization: textCapitalizationEnabled
+        ? TextCapitalization.characters // Use words, sentences, or characters as needed
+        : TextCapitalization.none,  obscureText: obscureText,
     controller: controller,
     keyboardType: inputType,
     inputFormatters: inputFormatters,
@@ -65,14 +69,18 @@ Widget CustomFormField({
       suffixIcon: child,
     ),
     cursorColor: cursorColor,
-    validator: validator // Use the validator parameter directly
-        ? (value) {
+    validator: (value) {
       if (value == null || value.isEmpty) {
         return 'This field cannot be empty';
       }
-      // You can add more custom validation logic here if needed.
+      if (customValidator != null) {
+        // Call the customValidator function for additional validation
+        String? customError = customValidator(value);
+        if (customError != null) {
+          return customError;
+        }
+      }
       return null;
-    }
-        : null,
+    },
   );
 }

@@ -6,7 +6,9 @@ import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/repository/api.dart';
 import 'package:hpn_pay_project_avestan/repository/api_services.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_form/company_form_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/party_bank/company_create_ledger_party_bank.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_loan/company_create_loan_data.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/data_classes/add_amount_field.dart';
 import 'package:http/http.dart' as http;
 
 class CompanyDashboardController extends GetxController {
@@ -14,6 +16,8 @@ class CompanyDashboardController extends GetxController {
   bool switchValue = true;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PageController pageController = PageController(initialPage: 0);
+
+  List<AmountData> amountList = [];
 
 
   var yesNoIndex = 0.obs;

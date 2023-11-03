@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/constants/app_lists.dart';
+import 'package:hpn_pay_project_avestan/constants/app_strings.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
@@ -11,6 +13,7 @@ import 'package:hpn_pay_project_avestan/custom_widgets/custom_text_asteric.dart'
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_textformfield.dart';
 import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/company_dashboard_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/data_classes/add_amount_field.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -67,18 +70,6 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
     });
   }
 
-  String dropdownValueLoan = 'Select';
-
-  // Selected value
-  List<String> loanTypes = [
-    'Select',
-    'Nagpur',
-    'Pune',
-    'Nashik',
-    'Amravati',
-    'Wardha',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,16 +121,12 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                   'No file open'
                       .text
                       .color(Colors.black.withOpacity(0.3))
-                      .make():
-                  Text(
-                    profile.imageFile == null
-                        ? 'No file open'
-                        : profile.imageFile!.path.split('/').last,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.3),
-                    ),
+                      .make()
+                      : Image.file(
+                    profile.imageFile!,
+                    width: 100, // Set the width as needed
+                    height: 100, // Set the height as needed
                   ),
-
                   InkWell(
                     onTap: () {
                       showCupertinoModalPopup(
@@ -228,10 +215,15 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                 showAsterisk: true,
               ),
               6.heightBox,
-              CustomFormField(
-                height: 16,
-                controller: ledgerPageController.stateController,
-                label: 'State',
+              CustomDropdown(
+                hintText: 'Select State',
+                value: dropdownValueState,
+                items: state,
+                onChanged: (String? val) {
+                  setState(() {
+                    dropdownValueState = val ?? 'Select State';
+                  });
+                },
               ),
               8.heightBox,
               Row(
@@ -249,11 +241,15 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                       6.heightBox,
                       SizedBox(
                         width: 153,
-                        child: CustomFormField(
-                          height: 16,
-                          controller:
-                          ledgerPageController.cityController,
-                          label: 'City',
+                        child: CustomDropdown(
+                          hintText: 'Select City',
+                          value: dropdownValueCity,
+                          items: city,
+                          onChanged: (String? val) {
+                            setState(() {
+                              dropdownValueCity = val ?? 'Select City';
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -271,6 +267,7 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                       SizedBox(
                         width: 153,
                         child: CustomFormField(
+                          length: 6,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
                           inputType: TextInputType.number,
                           height: 16,
@@ -291,6 +288,7 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
               ),
               6.heightBox,
               CustomFormField(
+                length: 10,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
                 inputType: TextInputType.number,
                 height: 16,
@@ -398,13 +396,14 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                 textColor: primaryColor,
                 showAsterisk: true,
               ),
+
               6.heightBox,
               CustomFormField(
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
-                inputType: TextInputType.number,
+                length: 15,
                 height: 16,
                 controller: ledgerPageController.passwordController,
                 label: 'Enter',
+                customValidator: validatePassword,
               ),
               8.heightBox,
               CustomRichText(
@@ -415,11 +414,11 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
               6.heightBox,
               CustomDropdown(
                 hintText: 'Enter',
-                value: dropdownValueLoan,
-                items: loanTypes,
+                value: dropdownValueLoanType,
+                items: loanTypeList,
                 onChanged: (String? val) {
                   setState(() {
-                    dropdownValueLoan = val ?? 'Enter';
+                    dropdownValueLoanType = val ?? 'Enter';
                   });
                 },
               ),
@@ -490,11 +489,11 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
               6.heightBox,
               CustomDropdown(
                 hintText: 'Select',
-                value: dropdownValueLoan,
-                items: loanTypes,
+                value: dropdownValuePaymentMethod,
+                items: paymentMethodList,
                 onChanged: (String? val) {
                   setState(() {
-                    dropdownValueLoan = val ?? 'Select';
+                    dropdownValuePaymentMethod = val ?? 'Select';
                   });
                 },
               ),
@@ -522,14 +521,45 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
               6.heightBox,
               CustomDropdown(
                 hintText: 'Select',
-                value: dropdownValueLoan,
-                items: loanTypes,
+                value: dropdownValueAdditional,
+                items: additionalList,
                 onChanged: (String? val) {
                   setState(() {
-                    dropdownValueLoan = val ?? 'Select';
+                    dropdownValueAdditional = val ?? 'Select';
+                    if (val == 'Add more range' || val == 'Add more Loan') {
+                      addAmountField();
+                    }
                   });
                 },
               ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: ledgerPageController.amountList.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      8.heightBox,
+                      CustomRichText(
+                        text: 'Amount',
+                        textColor: primaryColor,
+                      ),
+                      6.heightBox,
+                      CustomFormField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        // Pass it as a list
+                        inputType: TextInputType.number,
+                        height: 16,
+                        controller: ledgerPageController
+                            .amountList[index].amountListController,
+                        label: 'Amount',
+                      ),
+                    ],
+                  );
+                },
+              ),
+
 
               8.heightBox,
               CustomRichText(
@@ -587,4 +617,24 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
       });
     }
   }
+  void addAmountField() {
+    ledgerPageController.amountList.add(AmountData( amountListController: TextEditingController(),
+    ));
+    setState(() {});
+  }
+  String? validatePassword(String value) {
+    // Define a regular expression pattern for password validation
+    String pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$';
+    RegExp regExp = RegExp(pattern);
+
+    if (value.isEmpty) {
+      return 'Please enter a password';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, one special character, and be 8-15 characters long.';
+    }
+
+    return null; // Return null for a valid input
+  }
+
+
 }
