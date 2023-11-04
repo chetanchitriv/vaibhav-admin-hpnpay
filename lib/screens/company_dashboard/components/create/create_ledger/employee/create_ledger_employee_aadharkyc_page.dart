@@ -71,6 +71,7 @@ class _CreateLedgerEmployeeAadharKycPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
       appBar: CustomAppBar(
         onBackTap: Get.back,
@@ -117,7 +118,11 @@ class _CreateLedgerEmployeeAadharKycPageState
                   showAsterisk: true,
                 ),
                 6.heightBox,
-                CustomFormField(controller: aadharNumberController, label: 'Aadhar Number',child: CustomButton(width: 30,backgroundColor: primaryColor,text: 'Get OTP',textColor: whiteColor,textSize: 10,borderRadius: 4,onPress: (){
+                CustomFormField(
+                    length: 12,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                    inputType: TextInputType.number,
+                    controller: aadharNumberController, label: 'Aadhar Number',child: CustomButton(width: 30,backgroundColor: primaryColor,text: 'Get OTP',textColor: whiteColor,textSize: 10,borderRadius: 4,onPress: (){
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -248,14 +253,18 @@ class _CreateLedgerEmployeeAadharKycPageState
                   showAsterisk: true,
                 ),
                 6.heightBox,
-                CustomFormField(controller: aadharNumberController, label: 'Aadhar Number'),
+                CustomFormField(
+                    length: 12,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                    inputType: TextInputType.number,
+                    controller: aadharNumberController, label: 'Aadhar Number'),
                 8.heightBox,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     14.heightBox,
                     CustomRichText(
-                      text: 'Upload pan card',
+                      text: 'Upload Aadhar card (Front and Back)',
                       textColor: primaryColor,
                       showAsterisk: true,
                     ),
@@ -263,76 +272,138 @@ class _CreateLedgerEmployeeAadharKycPageState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        profile.imageFile == null ?
-                        'No file open'
+                        profile.aadharFrontImage == null ?
+                        'Not selected'
                             .text
                             .color(Colors.black.withOpacity(0.3))
-                            .make():
-                        Text(
-                          profile.imageFile == null
-                              ? 'No file open'
-                              : profile.imageFile!.path.split('/').last,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
+                            .make()
+                            : Image.file(
+                          profile.aadharFrontImage!,
+                          width: 100, // Set the width as needed
+                          height: 100, // Set the height as needed
+                        ),
+                        profile.aadharBackImage == null
+                            ? 'Not selected'
+                            .text
+                            .color(Colors.black.withOpacity(0.3))
+                            .make()
+                            : Image.file(
+                          profile.aadharBackImage!,
+                          width: 100,
+                          height: 100,
                         ),
 
-                        InkWell(
-                          onTap: () {
-                            showCupertinoModalPopup(
-                                context: context,
-                                builder: (context) =>
-                                    CupertinoActionSheet(
-                                      title: const Text(
-                                          'Select Image Source'),
-                                      actions: [
-                                        CupertinoActionSheetAction(
-                                          // ignore: duplicate_ignore
-                                            onPressed: () async {
-                                              aadharBase64 =
-                                              await profile
-                                                  .pickImage();
+                        Column(
+                          children: [
+                            'Select Front'
+                                .text
+                                .size(8)
+                                .white
+                                .make()
+                                .box
+                                .color(primaryColor)
+                                .p4
+                                .make().onTap(() {
+                                showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (context) =>
+                                        CupertinoActionSheet(
+                                          title: const Text(
+                                              'Select Image Source'),
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                              // ignore: duplicate_ignore
+                                                onPressed: () async {
+                                                  aadharBase64 =
+                                                  await profile
+                                                      .pickAadharFrontImage();
 
-                                              Navigator.pop(context);
-                                              if (aadharBase64 !=
-                                                  null) {
-                                                setState(() {
-                                                  isAadharUploaded =
-                                                  false;
-                                                });
-                                              }
-                                            },
-                                            child: const Text(
-                                                'Gallery')),
-                                        CupertinoActionSheetAction(
-                                            onPressed: () async {
-                                              aadharBase64 =
-                                              await profile
-                                                  .clickImage();
-                                              Navigator.pop(context);
-                                              if (aadharBase64 !=
-                                                  null) {
-                                                setState(() {
-                                                  isAadharUploaded =
-                                                  false;
-                                                });
-                                              }
-                                            },
-                                            child:
-                                            const Text('Camera'))
-                                      ],
-                                    ));
-                          },
+                                                  Navigator.pop(context);
+                                                  if (aadharBase64 !=
+                                                      null) {
+                                                    setState(() {
+                                                      isAadharUploaded =
+                                                      false;
+                                                    });
+                                                  }
+                                                },
+                                                child: const Text(
+                                                    'Gallery')),
+                                            CupertinoActionSheetAction(
+                                                onPressed: () async {
+                                                  aadharBase64 =
+                                                  await profile
+                                                      .clickAadharFrontImage();
+                                                  Navigator.pop(context);
+                                                  if (aadharBase64 !=
+                                                      null) {
+                                                    setState(() {
+                                                      isAadharUploaded =
+                                                      false;
+                                                    });
+                                                  }
+                                                },
+                                                child:
+                                                const Text('Camera'))
+                                          ],
+                                        ));
 
-                          child: 'Choose File'
-                              .text
-                              .size(12)
-                              .white
-                              .make()
-                              .box
-                              .color(primaryColor)
-                              .p4
-                              .make(),
+                            }),                              10.heightBox
+                          ,'Select Back'
+                                .text
+                                .size(8)
+                                .white
+                                .make()
+                                .box
+                                .color(primaryColor)
+                                .p4
+                                .make().onTap(() {
+                                showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (context) =>
+                                        CupertinoActionSheet(
+                                          title: const Text(
+                                              'Select Image Source'),
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                              // ignore: duplicate_ignore
+                                                onPressed: () async {
+                                                  aadharBase64 =
+                                                  await profile
+                                                      .pickAadharBackImage();
+
+                                                  Navigator.pop(context);
+                                                  if (aadharBase64 !=
+                                                      null) {
+                                                    setState(() {
+                                                      isAadharUploaded =
+                                                      false;
+                                                    });
+                                                  }
+                                                },
+                                                child: const Text(
+                                                    'Gallery')),
+                                            CupertinoActionSheetAction(
+                                                onPressed: () async {
+                                                  aadharBase64 =
+                                                  await profile
+                                                      .clickAadharBankImage();
+                                                  Navigator.pop(context);
+                                                  if (aadharBase64 !=
+                                                      null) {
+                                                    setState(() {
+                                                      isAadharUploaded =
+                                                      false;
+                                                    });
+                                                  }
+                                                },
+                                                child:
+                                                const Text('Camera'))
+                                          ],
+                                        ));
+
+                            }),
+                          ],
                         ),
                       ],
                     )
@@ -354,6 +425,8 @@ class _CreateLedgerEmployeeAadharKycPageState
                     ),
                     6.heightBox,
                     CustomFormField(
+                      length: 10,
+                      textCapitalizationEnabled: true,
                       validator: true,
                       height: 16,
                       controller: createLedgerEmployeeController.panCardController,
@@ -373,14 +446,11 @@ class _CreateLedgerEmployeeAadharKycPageState
                         'No file open'
                             .text
                             .color(Colors.black.withOpacity(0.3))
-                            .make():
-                        Text(
-                          profile.imageFile == null
-                              ? 'No file open'
-                              : profile.imageFile!.path.split('/').last,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
+                            .make()
+                            : Image.file(
+                          profile.imageFile!,
+                          width: 100, // Set the width as needed
+                          height: 100, // Set the height as needed
                         ),
 
                         InkWell(

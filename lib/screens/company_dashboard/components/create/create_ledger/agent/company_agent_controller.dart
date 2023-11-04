@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/data_classes/add_amount_field.dart';
 
 class CompanyAgentController extends GetxController{
   final isButtonLoad = RxBool(false);
@@ -7,6 +8,8 @@ class CompanyAgentController extends GetxController{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PageController pageController = PageController(initialPage: 0);
 
+  List<RangeData> rangeList = [];
+  List<LoanData> loanList = [];
 
   var remarkController = TextEditingController();
 

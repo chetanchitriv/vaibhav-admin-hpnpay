@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/constants/app_lists.dart';
+import 'package:hpn_pay_project_avestan/constants/app_strings.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
@@ -14,6 +16,8 @@ import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/cre
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/company_create_ledger_controller.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../data_classes/add_amount_field.dart';
 
 class CreateLedgerAgentEkycPageView extends StatefulWidget {
   CreateLedgerAgentEkycPageView({Key? key}) : super(key: key);
@@ -28,6 +32,7 @@ class _CreateLedgerAgentEkycPageViewState
   var createLedgerAgentController = Get.put(CompanyAgentController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
+  DateTime selectedJoiningDate = DateTime.now();
 
   ImageSelector profile = ImageSelector();
   String? profileBase64 = '';
@@ -57,32 +62,11 @@ class _CreateLedgerAgentEkycPageViewState
       isUpgradePlanYesSelected = !newValue!; // Deselect "Yes" when "No" is selected
     });
   }
-  String dropdownValueLoanType = 'Select';
-  String dropdownValuePaymentMethod = 'Select';
-  String dropdownValueAdditional = 'Select';
-
-  List<String> loanTypeList = [
-    'Select',
-    'Personal Loan',
-    'Property Loan',
-    'Home Loan',
-    'Personal Loan',
-  ];
-  List<String> paymentMethodList = [
-    'Select',
-    'Payment in flat',
-    'Payment in percentage',
-  ];
-  List<String> additionalList = [
-    'Select',
-    'Add more range',
-    'Add more Loan',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: whiteColor,
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -245,7 +229,6 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
-            readOnly: true,
             height: 16,
             controller: createLedgerAgentController.emailAddressController,
             label: 'Enter',
@@ -258,7 +241,6 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
-            readOnly: true,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             // Pass it as a list
             inputType: TextInputType.number,
@@ -316,10 +298,15 @@ class _CreateLedgerAgentEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerAgentController.genderController,
-            label: 'Enter',
+          CustomDropdown(
+            hintText: 'Select',
+            value: dropdownValueGender,
+            items: genderList,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueGender = val ?? 'Select';
+              });
+            },
           ),
           8.heightBox,
           CustomRichText(
@@ -355,6 +342,8 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            textCapitalizationEnabled: true,
+            isPanCard: true,
             height: 16,
             controller: createLedgerAgentController.panCardController,
             label: 'Pan Number',
@@ -374,14 +363,11 @@ class _CreateLedgerAgentEkycPageViewState
                       .text
                       .color(Colors.black.withOpacity(0.3))
                       .make()
-                  : Text(
-                      profile.imageFile == null
-                          ? 'No file open'
-                          : profile.imageFile!.path.split('/').last,
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.3),
-                      ),
-                    ),
+                  : Image.file(
+                profile.imageFile!,
+                width: 100, // Set the width as needed
+                height: 100, // Set the height as needed
+              ),
               InkWell(
                 onTap: () {
                   showCupertinoModalPopup(
@@ -517,10 +503,15 @@ class _CreateLedgerAgentEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerAgentController.bankNameController,
-            label: 'Enter',
+          CustomDropdown(
+            hintText: 'Select',
+            value: dropdownValueBank,
+            items: banksList,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueBank = val ?? 'Select';
+              });
+            },
           ),
           8.heightBox,
           CustomRichText(
@@ -542,6 +533,9 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
+
             height: 16,
             controller: createLedgerAgentController.accountNumberController,
             label: 'Enter',
@@ -554,6 +548,7 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            textCapitalizationEnabled: true,
             height: 16,
             controller: createLedgerAgentController.ifscCodeController,
             label: 'Enter',
@@ -565,11 +560,26 @@ class _CreateLedgerAgentEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerAgentController.joiningDateController,
-            label: 'By default',
-          ),
+
+          GestureDetector(
+            onTap: () {
+              _selectJoiningDate(context); // Call the _selectDate function on tap
+            },
+            child: Text("${selectedJoiningDate.toLocal()}".split(' ')[0]),
+          )
+              .box
+              .width(double.infinity)
+              .height(50)
+              .withDecoration(
+            BoxDecoration(
+              border: Border.all(
+                color: Colors.black.withOpacity(0.1),
+                width: 1.0,
+              ),
+            ),
+          )
+              .padding(EdgeInsets.all(10))
+              .make(),
           10.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -757,15 +767,151 @@ class _CreateLedgerAgentEkycPageViewState
           ),
           6.heightBox,
           CustomDropdown(
-            hintText: 'Enter',
+            hintText: 'Select',
             value: dropdownValueAdditional,
             items: additionalList,
             onChanged: (String? val) {
               setState(() {
-                dropdownValueAdditional = val ?? 'Enter';
+                dropdownValueAdditional = val ?? 'Select';
+                if (val == 'Add more range') {
+                  addMoreRangeField();
+                }
+                if (val == 'Add more Loan') {
+                  addMoreLoanField();
+                }
               });
             },
           ),
+
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: createLedgerAgentController.rangeList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomRichText(
+                    text: 'Range',
+                    textColor: primaryColor,
+                    showAsterisk: true,
+                  ),
+                  6.heightBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomRichText(
+                            text: 'From',
+                            textColor: primaryColor,
+                            showAsterisk: false,
+                          ),
+                          2.heightBox,
+                          SizedBox(
+                            width: 153,
+                            child: CustomFormField(
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                              inputType: TextInputType.number,
+                              height: 16,
+                              controller:
+                              createLedgerAgentController.rangeFromController,
+                              label: 'Amount in Lakh',
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomRichText(
+                            text: 'To',
+                            textColor: primaryColor,
+                            showAsterisk: false,
+                          ),
+                          2.heightBox,
+                          SizedBox(
+                            width: 153,
+                            child: CustomFormField(
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                              inputType: TextInputType.number,
+                              height: 16,
+                              controller:createLedgerAgentController.rangeToController,
+
+                              label: 'Amount in Lakh',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Amount',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // Pass it as a list
+                    inputType: TextInputType.number,
+                    height: 16,
+                    controller: createLedgerAgentController
+                        .rangeList[index].rangeListController,
+                    label: 'Amount',
+                  ),
+                ],
+              );
+            },
+          ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: createLedgerAgentController.loanList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Type of Loan',
+                    textColor: primaryColor,
+                    showAsterisk: true,
+                  ),
+                  6.heightBox,
+                  CustomDropdown(
+                    hintText: 'Enter',
+                    value: dropdownValueLoanType,
+                    items: loanTypeList,
+                    onChanged: (String? val) {
+                      setState(() {
+                        dropdownValueLoanType = val ?? 'Enter';
+                      });
+                    },
+                  ),
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Amount',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // Pass it as a list
+                    inputType: TextInputType.number,
+                    height: 16,
+                    controller: createLedgerAgentController
+                        .loanList[index].loanListController,
+                    label: 'Amount',
+                  ),
+                ],
+              );
+            },
+          ),
+
           10.heightBox,
           8.heightBox,
           Card(
@@ -876,6 +1022,30 @@ class _CreateLedgerAgentEkycPageViewState
         selectedDate = picked;
       });
     }
+  }
+  // Function to open the date picker
+  Future<void> _selectJoiningDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedJoiningDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedJoiningDate) {
+      setState(() {
+        selectedJoiningDate = picked;
+      });
+    }
+  }
+
+  void addMoreRangeField() {
+    createLedgerAgentController.rangeList.add(RangeData( rangeListController: TextEditingController(),
+    ));
+    setState(() {});
+  }
+  void addMoreLoanField() {
+    createLedgerAgentController.loanList.add(LoanData( loanListController: TextEditingController(),
+    ));
+    setState(() {});
   }
 
 }

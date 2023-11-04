@@ -335,7 +335,7 @@ class _AdminCreateCompanyPageState extends State<AdminCreateCompanyPage> {
           6.heightBox,
           CustomFormField(
             textCapitalizationEnabled: true,
-            customValidator: validatePancard,
+            isPanCard: true,
             length: 10,
             controller: adminDashboardController.panCardController,
             label: 'Pan Card Number',
@@ -421,13 +421,3 @@ class LicenseData {
   });
 }
 
-String? validatePancard(String value) {
-  String pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$';
-  RegExp regExp = RegExp(pattern);
-  if (value.isEmpty) {
-    return 'Please Enter Pancard Number';
-  } else if (!regExp.hasMatch(value)) {
-    return 'Please Enter Valid Pancard Number';
-  }
-  return null; // Return null for valid input
-}

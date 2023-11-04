@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AmountData {
-  final TextEditingController amountListController;
+class RangeData {
+  final TextEditingController rangeListController;
 
-  AmountData({
-    required this.amountListController,
+  RangeData({
+    required this.rangeListController,
+  });
+}
+class LoanData {
+  final TextEditingController loanListController;
+
+  LoanData({
+    required this.loanListController,
   });
 }

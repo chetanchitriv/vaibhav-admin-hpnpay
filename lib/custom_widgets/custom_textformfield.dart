@@ -15,24 +15,49 @@ Widget CustomFormField({
   TextInputType? inputType,
   List<TextInputFormatter>? inputFormatters,
   bool textCapitalizationEnabled = false,
-  bool readOnly = false, // Make it optional
+  bool readOnly = false,
   int? length,
   bool validator = true,
   String? Function(String)? customValidator,
+  bool? isPanCard,
 }) {
   if (length != null) {
-    // If length is specified, add a LengthLimitingTextInputFormatter
     inputFormatters ??= <TextInputFormatter>[];
     inputFormatters.add(LengthLimitingTextInputFormatter(length));
   }
+
+  String? Function(String?)? effectiveValidator = (String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+
+    if (isPanCard == true) {
+      // Validate as PAN card if isPanCard is true
+      String? panCardError = validatePancard(value);
+      if (panCardError != null) {
+        return panCardError;
+      }
+    }
+
+    if (customValidator != null) {
+      String? customError = customValidator(value);
+      if (customError != null) {
+        return customError;
+      }
+    }
+
+    return null;
+  };
+
   return TextFormField(
     textCapitalization: textCapitalizationEnabled
-        ? TextCapitalization.characters // Use words, sentences, or characters as needed
-        : TextCapitalization.none,  obscureText: obscureText,
+        ? TextCapitalization.characters
+        : TextCapitalization.none,
+    obscureText: obscureText,
     controller: controller,
     keyboardType: inputType,
     inputFormatters: inputFormatters,
-    readOnly: readOnly, // Set the readOnly property
+    readOnly: readOnly,
     decoration: InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: EdgeInsets.symmetric(vertical: height ?? 20.0, horizontal: width ?? 20.0),
@@ -69,18 +94,18 @@ Widget CustomFormField({
       suffixIcon: child,
     ),
     cursorColor: cursorColor,
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return 'This field cannot be empty';
-      }
-      if (customValidator != null) {
-        // Call the customValidator function for additional validation
-        String? customError = customValidator(value);
-        if (customError != null) {
-          return customError;
-        }
-      }
-      return null;
-    },
+    validator: validator ? effectiveValidator : null,
   );
 }
+
+String? validatePancard(String value) {
+  String pattern = r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$';
+  RegExp regExp = RegExp(pattern);
+  if (value.isEmpty) {
+    return 'Please Enter Pancard Number';
+  } else if (!regExp.hasMatch(value)) {
+    return 'Please Enter Valid Pancard Number';
+  }
+  return null; // Return null for valid input
+}
+

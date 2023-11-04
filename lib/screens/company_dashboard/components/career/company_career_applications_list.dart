@@ -109,53 +109,56 @@ class CompanyCareerApplicationsList extends StatelessWidget {
                 ),
                 Gap(20),
                 Container(height: 1,color: primaryColor,),
-                Gap(20),
                 ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                 // scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemCount: 2,
                   // You can set the number of shimmer items you want to display
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
+                    return SizedBox(
+                      height: 150,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                ),
                               ),
-                            ),
-                            Gap(20),
-                            'Priya'.text.color(primaryColor).size(6).make(),
-                            Gap(20),
-                            'priyasharma@gmail.com'.text.color(primaryColor).size(6).make(),
-                            Gap(20),
+                              SizedBox(width: 20), // Use SizedBox for spacing
+                              Text('Priya', style: TextStyle(color: primaryColor, fontSize: 20)),
+                              SizedBox(width: 20), // Use SizedBox for spacing
+                              Text('priyasharma@gmail.com', style: TextStyle(color: primaryColor, fontSize: 6)),
+                              SizedBox(width: 20), // Use SizedBox for spacing
 
-                            'Pending'.text.color(Colors.red).bold.size(6).make(),
-                            Gap(20),
+                              Text('Pending', style: TextStyle(color: Colors.red, fontSize: 6, fontWeight: FontWeight.bold)),
+                              SizedBox(width: 20), // Use SizedBox for spacing
 
-                            'Download'.text.color(primaryColor).size(6).makeCentered().box.height(16).width(70).withDecoration(BoxDecoration(
-                              border: Border.all(color: Colors.black.withOpacity(0.4)),
-                              borderRadius: BorderRadius.circular(4)
-                            ),).make(),
-                            Gap(20),
-                            'Add Interviewer'.text.color(primaryColor).size(6).makeCentered().box.height(16).width(70).withDecoration(BoxDecoration(
+                              Text('Download', style: TextStyle(color: primaryColor, fontSize: 6)).box.height(16).width(70).withDecoration(BoxDecoration(
                                 border: Border.all(color: Colors.black.withOpacity(0.4)),
-                                borderRadius: BorderRadius.circular(4)
-                            ),).make(),
-                            Gap(20),
+                                borderRadius: BorderRadius.circular(4),
+                              )).make(),
+                              SizedBox(width: 20), // Use SizedBox for spacing
 
-                            'Action'.text.color(primaryColor).size(6).makeCentered().box.height(16).width(70).withDecoration(BoxDecoration(
+                              Text('Add Interviewer', style: TextStyle(color: primaryColor, fontSize: 6)).box.height(16).width(70).withDecoration(BoxDecoration(
                                 border: Border.all(color: Colors.black.withOpacity(0.4)),
-                                borderRadius: BorderRadius.circular(4)
-                            ),).make(),
-                          ],
-                        ),
-                        Gap(40)
-                      ],
+                                borderRadius: BorderRadius.circular(4),
+                              )).make(),
+                              SizedBox(width: 20), // Use SizedBox for spacing
+
+                              Text('Action', style: TextStyle(color: primaryColor, fontSize: 6)).box.height(16).width(70).withDecoration(BoxDecoration(
+                                border: Border.all(color: Colors.black.withOpacity(0.4)),
+                                borderRadius: BorderRadius.circular(4),
+                              )).make(),
+                            ],
+                          ),
+                          SizedBox(height: 40), // Use SizedBox for spacing
+                        ],
+                      ),
                     );
                   },
                 )

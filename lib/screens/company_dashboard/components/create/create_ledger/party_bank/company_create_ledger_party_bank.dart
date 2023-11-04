@@ -34,21 +34,21 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
   bool isProfileUploaded = false;
 
 
-  bool? isYesSelected = false;
-  bool? isNoSelected = false;
+  bool? isGstYesSelected = false;
+  bool? isGstNoSelected = false;
 
 
-  void onChangedYes(bool? newValue) {
+  void onChangedGstYes(bool? newValue) {
     setState(() {
-      isYesSelected = newValue;
-      isNoSelected = !newValue!; // Deselect "No" when "Yes" is selected
+      isGstYesSelected = newValue;
+      isGstNoSelected = !newValue!; // Deselect "No" when "Yes" is selected
     });
   }
 
-  void onChangedNo(bool? newValue) {
+  void onChangedGstNo(bool? newValue) {
     setState(() {
-      isNoSelected = newValue;
-      isYesSelected = !newValue!; // Deselect "Yes" when "No" is selected
+      isGstNoSelected = newValue;
+      isGstYesSelected = !newValue!; // Deselect "Yes" when "No" is selected
     });
   }
 
@@ -318,22 +318,22 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                 children: [
                   CustomCheckbox(
                     label: 'Yes',
-                    value: isYesSelected,
-                    onChanged: onChangedYes,
+                    value: isGstYesSelected,
+                    onChanged: onChangedGstYes,
                     activeColor: Colors.green,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   CustomCheckbox(
                     label: 'No',
-                    value: isNoSelected,
-                    onChanged: onChangedNo,
+                    value: isGstNoSelected,
+                    onChanged: onChangedGstNo,
                     activeColor: Colors.green,
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ],
               ),
               Visibility(
-                  visible: isYesSelected == true,
+                  visible: isGstYesSelected == true,
                   child: CustomFormField(
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
                       inputType: TextInputType.number,
@@ -392,6 +392,7 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
               ),
               8.heightBox,
               CustomRichText(
+                toolTipMessage: 'Your password should be - 1 aphabetic letter 1 capital letter 1 numeric value 1 special character password limit 8 - 15 digits',
                 text: 'Password',
                 textColor: primaryColor,
                 showAsterisk: true,
@@ -526,20 +527,81 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                 onChanged: (String? val) {
                   setState(() {
                     dropdownValueAdditional = val ?? 'Select';
-                    if (val == 'Add more range' || val == 'Add more Loan') {
-                      addAmountField();
+                    if (val == 'Add more range') {
+                      addMoreRangeField();
+                    }
+                    if (val == 'Add more Loan') {
+                      addMoreLoanField();
                     }
                   });
                 },
               ),
+
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: ledgerPageController.amountList.length,
+                itemCount: ledgerPageController.rangeList.length,
                 itemBuilder: (context, index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      CustomRichText(
+                        text: 'Range',
+                        textColor: primaryColor,
+                        showAsterisk: true,
+                      ),
+                      6.heightBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomRichText(
+                                text: 'From',
+                                textColor: primaryColor,
+                                showAsterisk: false,
+                              ),
+                              2.heightBox,
+                              SizedBox(
+                                width: 153,
+                                child: CustomFormField(
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                                  inputType: TextInputType.number,
+                                  height: 16,
+                                  controller:
+                                  ledgerPageController.loanRangeFromController,
+                                  label: 'Amount in Lakh',
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomRichText(
+                                text: 'To',
+                                textColor: primaryColor,
+                                showAsterisk: false,
+                              ),
+                              2.heightBox,
+                              SizedBox(
+                                width: 153,
+                                child: CustomFormField(
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                                  inputType: TextInputType.number,
+                                  height: 16,
+                                  controller:ledgerPageController.loanRangeToController,
+
+                                  label: 'Amount in Lakh',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                       8.heightBox,
                       CustomRichText(
                         text: 'Amount',
@@ -552,7 +614,51 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                         inputType: TextInputType.number,
                         height: 16,
                         controller: ledgerPageController
-                            .amountList[index].amountListController,
+                            .rangeList[index].rangeListController,
+                        label: 'Amount',
+                      ),
+                    ],
+                  );
+                },
+              ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: ledgerPageController.loanList.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      8.heightBox,
+                      CustomRichText(
+                        text: 'Type of Loan',
+                        textColor: primaryColor,
+                        showAsterisk: true,
+                      ),
+                      6.heightBox,
+                      CustomDropdown(
+                        hintText: 'Enter',
+                        value: dropdownValueLoanType,
+                        items: loanTypeList,
+                        onChanged: (String? val) {
+                          setState(() {
+                            dropdownValueLoanType = val ?? 'Enter';
+                          });
+                        },
+                      ),
+                      8.heightBox,
+                      CustomRichText(
+                        text: 'Amount',
+                        textColor: primaryColor,
+                      ),
+                      6.heightBox,
+                      CustomFormField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        // Pass it as a list
+                        inputType: TextInputType.number,
+                        height: 16,
+                        controller: ledgerPageController
+                            .loanList[index].loanListController,
                         label: 'Amount',
                       ),
                     ],
@@ -586,6 +692,236 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
                   ),
                 ],
               ),
+              // Visibility(
+              //   visible: isUpgradePlanYesSelected == true,
+              //   child: Column(
+              //     children: [
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Effective Date',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       GestureDetector(
+              //         onTap: () {
+              //           _selectDate(context); // Call the _selectDate function on tap
+              //         },
+              //         child: Text("${selectedDate.toLocal()}".split(' ')[0]),
+              //       )
+              //           .box
+              //           .width(double.infinity)
+              //           .height(50)
+              //           .withDecoration(
+              //         BoxDecoration(
+              //           border: Border.all(
+              //             color: Colors.black.withOpacity(0.1),
+              //             width: 1.0,
+              //           ),
+              //         ),
+              //       )
+              //           .padding(EdgeInsets.all(10))
+              //           .make(),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Update URL',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       CustomFormField(
+              //         height: 16,
+              //         controller: ledgerPageController.updateUrlController,
+              //         label: 'Enter',
+              //       ),
+              //       8.heightBox,
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'User ID',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       CustomFormField(
+              //         height: 16,
+              //         controller: ledgerPageController.userIdController,
+              //         label: 'Enter',
+              //       ),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         toolTipMessage: 'Your password should be - 1 aphabetic letter 1 capital letter 1 numeric value 1 special character password limit 8 - 15 digits',
+              //         text: 'Password',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //
+              //       6.heightBox,
+              //       CustomFormField(
+              //         length: 15,
+              //         height: 16,
+              //         controller: ledgerPageController.passwordController,
+              //         label: 'Enter',
+              //         customValidator: validatePassword,
+              //       ),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Type of Loan',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       CustomDropdown(
+              //         hintText: 'Enter',
+              //         value: dropdownValueLoanType,
+              //         items: loanTypeList,
+              //         onChanged: (String? val) {
+              //           setState(() {
+              //             dropdownValueLoanType = val ?? 'Enter';
+              //           });
+              //         },
+              //       ),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Range',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Column(
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               CustomRichText(
+              //                 text: 'From',
+              //                 textColor: primaryColor,
+              //                 showAsterisk: false,
+              //               ),
+              //               2.heightBox,
+              //               SizedBox(
+              //                 width: 153,
+              //                 child: CustomFormField(
+              //                   inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+              //                   inputType: TextInputType.number,
+              //                   height: 16,
+              //                   controller:
+              //                   ledgerPageController.loanRangeFromController,
+              //                   label: 'Amount in Lakh',
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //           Column(
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               CustomRichText(
+              //                 text: 'To',
+              //                 textColor: primaryColor,
+              //                 showAsterisk: false,
+              //               ),
+              //               2.heightBox,
+              //               SizedBox(
+              //                 width: 153,
+              //                 child: CustomFormField(
+              //                   inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+              //                   inputType: TextInputType.number,
+              //                   height: 16,
+              //                   controller:
+              //                   ledgerPageController.loanRangeToController,
+              //                   label: 'Amount in Lakh',
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Method of Payment',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       CustomDropdown(
+              //         hintText: 'Select',
+              //         value: dropdownValuePaymentMethod,
+              //         items: paymentMethodList,
+              //         onChanged: (String? val) {
+              //           setState(() {
+              //             dropdownValuePaymentMethod = val ?? 'Select';
+              //           });
+              //         },
+              //       ),
+              //
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Amount',
+              //         textColor: primaryColor,
+              //         showAsterisk: true,
+              //       ),
+              //       6.heightBox,
+              //       CustomFormField(
+              //         inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+              //         inputType: TextInputType.number,
+              //         height: 16,
+              //         controller: ledgerPageController.amountController,
+              //         label: 'Enter',
+              //       ),
+              //       8.heightBox,
+              //       CustomRichText(
+              //         text: 'Additional',
+              //         textColor: primaryColor,
+              //         showAsterisk: false,
+              //       ),
+              //       6.heightBox,
+              //       CustomDropdown(
+              //         hintText: 'Select',
+              //         value: dropdownValueAdditional,
+              //         items: additionalList,
+              //         onChanged: (String? val) {
+              //           setState(() {
+              //             dropdownValueAdditional = val ?? 'Select';
+              //             if (val == 'Add more range' || val == 'Add more Loan') {
+              //               addAmountField();
+              //             }
+              //           });
+              //         },
+              //       ),
+              //       ListView.builder(
+              //         physics: NeverScrollableScrollPhysics(),
+              //         shrinkWrap: true,
+              //         itemCount: ledgerPageController.amountUpgradePlanList.length,
+              //         itemBuilder: (context, index) {
+              //           return Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               8.heightBox,
+              //               CustomRichText(
+              //                 text: 'Amount',
+              //                 textColor: primaryColor,
+              //               ),
+              //               6.heightBox,
+              //               CustomFormField(
+              //                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              //                 // Pass it as a list
+              //                 inputType: TextInputType.number,
+              //                 height: 16,
+              //                 controller: ledgerPageController
+              //                     .amountUpgradePlanList[index].amountListController,
+              //                 label: 'Amount',
+              //               ),
+              //             ],
+              //           );
+              //         },
+              //       ),
+              //
+              //
+              //     ],
+              //   ),
+              // ),
               20.heightBox,
               Align(
                 alignment: Alignment.center,
@@ -617,8 +953,14 @@ class _CompanyCreateLedgerPartyBankPageState extends State<CompanyCreateLedgerPa
       });
     }
   }
-  void addAmountField() {
-    ledgerPageController.amountList.add(AmountData( amountListController: TextEditingController(),
+
+  void addMoreRangeField() {
+    ledgerPageController.rangeList.add(RangeData( rangeListController: TextEditingController(),
+    ));
+    setState(() {});
+  }
+  void addMoreLoanField() {
+    ledgerPageController.loanList.add(LoanData( loanListController: TextEditingController(),
     ));
     setState(() {});
   }

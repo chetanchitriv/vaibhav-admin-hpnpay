@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpn_pay_project_avestan/constants/app_colors.dart';
+import 'package:hpn_pay_project_avestan/constants/app_lists.dart';
+import 'package:hpn_pay_project_avestan/constants/app_strings.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_appbar.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_button.dart';
 import 'package:hpn_pay_project_avestan/custom_widgets/custom_checkbox.dart';
@@ -14,6 +16,7 @@ import 'package:hpn_pay_project_avestan/routes/app_pages.dart';
 import 'package:hpn_pay_project_avestan/screens/admin_dashboard/admin_dashboard_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/company_create_ledger_controller.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/create_ledger/employee/company_employee_controller.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/data_classes/add_amount_field.dart';
 import 'package:hpn_pay_project_avestan/screens/company_dashboard/widgets/company_drawer.dart';
 import 'package:hpn_pay_project_avestan/services/image_services.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -31,6 +34,7 @@ class _CreateLedgerEmployeeEkycPageViewState
   var createLedgerEmployeeController = Get.put(CompanyEmployeeController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
+  DateTime selectedJoiningDate = DateTime.now();
 
   ImageSelector profile = ImageSelector();
   String? profileBase64 = '';
@@ -52,40 +56,11 @@ class _CreateLedgerEmployeeEkycPageViewState
       isUpgradePlanYesSelected = !newValue!; // Deselect "Yes" when "No" is selected
     });
   }
-  String dropdownValueLevel = 'Select';
-  String dropdownValueLoanType = 'Select';
-  String dropdownValuePaymentMethod = 'Select';
-  String dropdownValueAdditional = 'Select';
-
-  // Selected value
-  List<String> levelsList = [
-    'Select',
-    'Level 1',
-    'Level 2',
-    'Level 3',
-  ];
-  List<String> loanTypeList = [
-    'Select',
-    'Personal Loan',
-    'Property Loan',
-    'Home Loan',
-    'Personal Loan',
-  ];
-  List<String> paymentMethodList = [
-    'Select',
-    'Payment in flat',
-    'Payment in percentage',
-  ];
-  List<String> additionalList = [
-    'Select',
-    'Add more range',
-    'Add more Loan',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: whiteColor,
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -93,19 +68,16 @@ class _CreateLedgerEmployeeEkycPageViewState
         leading: Icon(Icons.arrow_back_ios, color: blackColor, size: 20).px4(),
         backgroundColor: whiteColor,
       ),
-      body: Form(
-        key: createLedgerEmployeeController.formKey,
-        child: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: createLedgerEmployeeController.pageController,
-          children: [
-            firstFormPage(0),
-            secondFormPage(1),
-            thirdFormPage(2),
-            fourthFormPage(3),
-            fifthFormPage(4),
-          ],
-        ),
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: createLedgerEmployeeController.eKycPageController,
+        children: [
+          firstFormPage(0),
+          secondFormPage(1),
+          thirdFormPage(2),
+          fourthFormPage(3),
+          fifthFormPage(4),
+        ],
       ),
     );
   }
@@ -249,7 +221,6 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
-            readOnly: true,
             height: 16,
             controller: createLedgerEmployeeController.emailAddressController,
             label: 'Enter',
@@ -262,7 +233,6 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
-            readOnly: true,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             // Pass it as a list
             inputType: TextInputType.number,
@@ -280,7 +250,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                     // if (createLedgerEmployeeController.formKey.currentState!
                     //     .validate()) {
                     if (page < 1) {
-                      createLedgerEmployeeController.pageController.nextPage(
+                      createLedgerEmployeeController.eKycPageController.nextPage(
                         duration: Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
@@ -320,10 +290,15 @@ class _CreateLedgerEmployeeEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerEmployeeController.genderController,
-            label: 'Enter',
+          CustomDropdown(
+            hintText: 'Select',
+            value: dropdownValueGender,
+            items: genderList,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueGender = val ?? 'Select';
+              });
+            },
           ),
           8.heightBox,
           CustomRichText(
@@ -334,7 +309,7 @@ class _CreateLedgerEmployeeEkycPageViewState
           6.heightBox,
           GestureDetector(
             onTap: () {
-              _selectDate(context); // Call the _selectDate function on tap
+              selectDate(context); // Call the _selectDate function on tap
             },
             child: Text("${selectedDate.toLocal()}".split(' ')[0]),
           )
@@ -359,6 +334,9 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            textCapitalizationEnabled: true,
+            isPanCard: true,
+            length: 10,
             height: 16,
             controller: createLedgerEmployeeController.panCardController,
             label: 'Pan Number',
@@ -378,14 +356,11 @@ class _CreateLedgerEmployeeEkycPageViewState
                       .text
                       .color(Colors.black.withOpacity(0.3))
                       .make()
-                  : Text(
-                      profile.imageFile == null
-                          ? 'No file open'
-                          : profile.imageFile!.path.split('/').last,
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.3),
-                      ),
-                    ),
+                  : Image.file(
+                profile.imageFile!,
+                width: 100, // Set the width as needed
+                height: 100, // Set the height as needed
+              ),
               InkWell(
                 onTap: () {
                   showCupertinoModalPopup(
@@ -451,7 +426,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController
+                        createLedgerEmployeeController.eKycPageController
                             .previousPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
@@ -479,7 +454,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController.nextPage(
+                        createLedgerEmployeeController.eKycPageController.nextPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
                         );
@@ -521,10 +496,15 @@ class _CreateLedgerEmployeeEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerEmployeeController.bankNameController,
-            label: 'Enter',
+          CustomDropdown(
+            hintText: 'Select',
+            value: dropdownValueBank,
+            items: banksList,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueBank = val ?? 'Select';
+              });
+            },
           ),
           8.heightBox,
           CustomRichText(
@@ -546,6 +526,8 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
             controller: createLedgerEmployeeController.accountNumberController,
             label: 'Enter',
@@ -558,6 +540,7 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            textCapitalizationEnabled: true,
             height: 16,
             controller: createLedgerEmployeeController.ifscCodeController,
             label: 'Enter',
@@ -587,9 +570,11 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
             controller: createLedgerEmployeeController.salaryController,
-            label: 'By default',
+            label: 'Enter',
           ),
           8.heightBox,
           CustomRichText(
@@ -598,11 +583,25 @@ class _CreateLedgerEmployeeEkycPageViewState
             showAsterisk: true,
           ),
           6.heightBox,
-          CustomFormField(
-            height: 16,
-            controller: createLedgerEmployeeController.joiningDateController,
-            label: 'By default',
-          ),
+          GestureDetector(
+            onTap: () {
+              _selectJoiningDate(context); // Call the _selectDate function on tap
+            },
+            child: Text("${selectedJoiningDate.toLocal()}".split(' ')[0]),
+          )
+              .box
+              .width(double.infinity)
+              .height(50)
+              .withDecoration(
+            BoxDecoration(
+              border: Border.all(
+                color: Colors.black.withOpacity(0.1),
+                width: 1.0,
+              ),
+            ),
+          )
+              .padding(EdgeInsets.all(10))
+              .make(),
           10.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -612,7 +611,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController
+                        createLedgerEmployeeController.eKycPageController
                             .previousPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
@@ -640,7 +639,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController.nextPage(
+                        createLedgerEmployeeController.eKycPageController.nextPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
                         );
@@ -700,6 +699,8 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
             controller: createLedgerEmployeeController.minimumFileController,
             label: 'Enter',
@@ -712,6 +713,8 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
             controller: createLedgerEmployeeController.amountController,
             label: 'Enter',
@@ -741,6 +744,8 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+            inputType: TextInputType.number,
             height: 16,
             controller: createLedgerEmployeeController.payAmountController,
             label: 'Enter',
@@ -752,15 +757,151 @@ class _CreateLedgerEmployeeEkycPageViewState
           ),
           6.heightBox,
           CustomDropdown(
-            hintText: 'Enter',
+            hintText: 'Select',
             value: dropdownValueAdditional,
             items: additionalList,
             onChanged: (String? val) {
               setState(() {
-                dropdownValueAdditional = val ?? 'Enter';
+                dropdownValueAdditional = val ?? 'Select';
+                if (val == 'Add more range') {
+                  addMoreRangeField();
+                }
+                if (val == 'Add more Loan') {
+                  addMoreLoanField();
+                }
               });
             },
           ),
+
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: createLedgerEmployeeController.rangeList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomRichText(
+                    text: 'Range',
+                    textColor: primaryColor,
+                    showAsterisk: true,
+                  ),
+                  6.heightBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomRichText(
+                            text: 'From',
+                            textColor: primaryColor,
+                            showAsterisk: false,
+                          ),
+                          2.heightBox,
+                          SizedBox(
+                            width: 153,
+                            child: CustomFormField(
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                              inputType: TextInputType.number,
+                              height: 16,
+                              controller:
+                              createLedgerEmployeeController.rangeFromController,
+                              label: 'Amount in Lakh',
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomRichText(
+                            text: 'To',
+                            textColor: primaryColor,
+                            showAsterisk: false,
+                          ),
+                          2.heightBox,
+                          SizedBox(
+                            width: 153,
+                            child: CustomFormField(
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                              inputType: TextInputType.number,
+                              height: 16,
+                              controller:createLedgerEmployeeController.rangeToController,
+
+                              label: 'Amount in Lakh',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Amount',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // Pass it as a list
+                    inputType: TextInputType.number,
+                    height: 16,
+                    controller: createLedgerEmployeeController
+                        .rangeList[index].rangeListController,
+                    label: 'Amount',
+                  ),
+                ],
+              );
+            },
+          ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: createLedgerEmployeeController.loanList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Type of Loan',
+                    textColor: primaryColor,
+                    showAsterisk: true,
+                  ),
+                  6.heightBox,
+                  CustomDropdown(
+                    hintText: 'Enter',
+                    value: dropdownValueLoanType,
+                    items: loanTypeList,
+                    onChanged: (String? val) {
+                      setState(() {
+                        dropdownValueLoanType = val ?? 'Enter';
+                      });
+                    },
+                  ),
+                  8.heightBox,
+                  CustomRichText(
+                    text: 'Amount',
+                    textColor: primaryColor,
+                  ),
+                  6.heightBox,
+                  CustomFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // Pass it as a list
+                    inputType: TextInputType.number,
+                    height: 16,
+                    controller: createLedgerEmployeeController
+                        .loanList[index].loanListController,
+                    label: 'Amount',
+                  ),
+                ],
+              );
+            },
+          ),
+
           10.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -770,7 +911,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController
+                        createLedgerEmployeeController.eKycPageController
                             .previousPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
@@ -798,7 +939,7 @@ class _CreateLedgerEmployeeEkycPageViewState
                 child: TextButton(
                     onPressed: () {
                       if (page > 0) {
-                        createLedgerEmployeeController.pageController.nextPage(
+                        createLedgerEmployeeController.eKycPageController.nextPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
                         );
@@ -832,8 +973,6 @@ class _CreateLedgerEmployeeEkycPageViewState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          'Target'.text.black.semiBold.size(18).make(),
-          10.heightBox,
           CustomRichText(
             text: 'Continue Performance',
             textColor: primaryColor,
@@ -896,7 +1035,7 @@ class _CreateLedgerEmployeeEkycPageViewState
             child: TextButton(
                 onPressed: () {
                   if (page > 0) {
-                    createLedgerEmployeeController.pageController
+                    createLedgerEmployeeController.eKycPageController
                         .previousPage(
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease,
@@ -927,10 +1066,10 @@ class _CreateLedgerEmployeeEkycPageViewState
               child: CustomButton(
                 isLoading: createLedgerEmployeeController.isButtonLoad.value,
                 onPress: () {
-                  if (createLedgerEmployeeController.pageController.page != 0) {
+                  if (createLedgerEmployeeController.eKycPageController.page != 0) {
                     // Navigate to page 0
                     Get.toNamed(Routes.COMPANY_CREATE_LEDGER_DASHBOARD);
-                    createLedgerEmployeeController.pageController.animateToPage(
+                    createLedgerEmployeeController.eKycPageController.animateToPage(
                       0,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.ease,
@@ -955,7 +1094,7 @@ class _CreateLedgerEmployeeEkycPageViewState
   }
 
   // Function to open the date picker
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -966,6 +1105,30 @@ class _CreateLedgerEmployeeEkycPageViewState
         selectedDate = picked;
       });
     }
+  }
+  // Function to open the date picker
+  Future<void> _selectJoiningDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedJoiningDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedJoiningDate) {
+      setState(() {
+        selectedJoiningDate = picked;
+      });
+    }
+  }
+
+  void addMoreRangeField() {
+    createLedgerEmployeeController.rangeList.add(RangeData( rangeListController: TextEditingController(),
+    ));
+    setState(() {});
+  }
+  void addMoreLoanField() {
+    createLedgerEmployeeController.loanList.add(LoanData( loanListController: TextEditingController(),
+    ));
+    setState(() {});
   }
 
 }

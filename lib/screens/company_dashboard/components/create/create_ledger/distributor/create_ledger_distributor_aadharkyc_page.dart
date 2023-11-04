@@ -118,7 +118,11 @@ class _CreateLedgerDistributorAadharKycPageState
                   showAsterisk: true,
                 ),
                 6.heightBox,
-                CustomFormField(controller: aadharNumberController, label: 'Aadhar Number',child: CustomButton(width: 30,backgroundColor: primaryColor,text: 'Get OTP',textColor: whiteColor,textSize: 10,borderRadius: 4,onPress: (){
+                CustomFormField(
+                    length: 12,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Pass it as a list
+                    inputType: TextInputType.number,
+                    controller: aadharNumberController, label: 'Aadhar Number',child: CustomButton(width: 30,backgroundColor: primaryColor,text: 'Get OTP',textColor: whiteColor,textSize: 10,borderRadius: 4,onPress: (){
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {

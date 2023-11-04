@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hpn_pay_project_avestan/screens/company_dashboard/components/create/data_classes/add_amount_field.dart';
 
 class CompanyEmployeeController extends GetxController{
   final isButtonLoad = RxBool(false);
   bool switchValue = true;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final PageController pageController = PageController(initialPage: 0);
+  final GlobalKey<FormState> eKycFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> manualKycformKey = GlobalKey<FormState>();
+  final PageController eKycPageController = PageController(initialPage: 0);
+  final PageController manualKycPageController = PageController(initialPage: 0);
 
 
+
+  List<RangeData> rangeList = [];
+  List<LoanData> loanList = [];
   var remarkController = TextEditingController();
 
   var partyNameController = TextEditingController();

@@ -17,7 +17,9 @@ class CompanyDashboardController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PageController pageController = PageController(initialPage: 0);
 
-  List<AmountData> amountList = [];
+
+  List<RangeData> rangeList = [];
+  List<LoanData> loanList = [];
 
 
   var yesNoIndex = 0.obs;

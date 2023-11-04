@@ -119,133 +119,135 @@ class _PostJobPageState extends State<PostJobPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        16.heightBox,
-        CustomRichText(
-          text: 'Level',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomDropdown(
-          hintText: 'Select',
-          value: dropdownValueLevel,
-          items: levelsList,
-          onChanged: (String? val) {
-            setState(() {
-              dropdownValueLevel = val ?? 'Select';
-            });
-          },
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Job Description',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomFormField(
-          height: 16,
-          controller: careerPageController.jobCategoryController,
-          label: 'Enter',
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Salary',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomFormField(
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          // Pass it as a list
-          inputType: TextInputType.number,
-          height: 16,
-          controller: careerPageController.salaryController,
-          label: 'Enter',
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Job Category',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomFormField(
-          height: 16,
-          controller: careerPageController.jobCategoryController,
-          label: 'By Default',
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Compulsary requirement',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomFormField(
-          height: 16,
-          controller: careerPageController.salaryController,
-          label: 'Compulsary requirement',
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Number of Vacancy',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        CustomFormField(
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          // Pass it as a list
-          inputType: TextInputType.number,
-          height: 16,
-          controller: careerPageController.salaryController,
-          label: 'Enter',
-        ),
-        8.heightBox,
-        CustomRichText(
-          text: 'Job deadline',
-          textColor: primaryColor,
-          showAsterisk: true,
-        ),
-        6.heightBox,
-        GestureDetector(
-          onTap: () {
-            _selectDate(context); // Call the _selectDate function on tap
-          },
-          child: Text("${selectedDate.toLocal()}".split(' ')[0]),
-        )
-            .box
-            .width(double.infinity)
-            .height(50)
-            .withDecoration(
-              BoxDecoration(
-                border: Border.all(
-                  color: Colors.black.withOpacity(0.1),
-                  width: 1.0,
-                ),
-              ),
-            )
-            .padding(const EdgeInsets.all(10))
-            .make(),
-        20.heightBox,
-        Align(
-          alignment: Alignment.center,
-          child: CustomButton(
-            height: 40,
-            width: 160,
-            backgroundColor: primaryColor,
-            text: 'Submit',
-            textColor: whiteColor,
-            borderRadius: 22,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          16.heightBox,
+          CustomRichText(
+            text: 'Level',
+            textColor: primaryColor,
+            showAsterisk: true,
           ),
-        )
-      ],
-    ).p16();
+          6.heightBox,
+          CustomDropdown(
+            hintText: 'Select',
+            value: dropdownValueLevel,
+            items: levelsList,
+            onChanged: (String? val) {
+              setState(() {
+                dropdownValueLevel = val ?? 'Select';
+              });
+            },
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Job Description',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          CustomFormField(
+            height: 16,
+            controller: careerPageController.jobCategoryController,
+            label: 'Enter',
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Salary',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            // Pass it as a list
+            inputType: TextInputType.number,
+            height: 16,
+            controller: careerPageController.salaryController,
+            label: 'Enter',
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Job Category',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          CustomFormField(
+            height: 16,
+            controller: careerPageController.jobCategoryController,
+            label: 'By Default',
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Compulsary requirement',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          CustomFormField(
+            height: 16,
+            controller: careerPageController.salaryController,
+            label: 'Compulsary requirement',
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Number of Vacancy',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          CustomFormField(
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            // Pass it as a list
+            inputType: TextInputType.number,
+            height: 16,
+            controller: careerPageController.salaryController,
+            label: 'Enter',
+          ),
+          8.heightBox,
+          CustomRichText(
+            text: 'Job deadline',
+            textColor: primaryColor,
+            showAsterisk: true,
+          ),
+          6.heightBox,
+          GestureDetector(
+            onTap: () {
+              _selectDate(context); // Call the _selectDate function on tap
+            },
+            child: Text("${selectedDate.toLocal()}".split(' ')[0]),
+          )
+              .box
+              .width(double.infinity)
+              .height(50)
+              .withDecoration(
+                BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black.withOpacity(0.1),
+                    width: 1.0,
+                  ),
+                ),
+              )
+              .padding(const EdgeInsets.all(10))
+              .make(),
+          20.heightBox,
+          Align(
+            alignment: Alignment.center,
+            child: CustomButton(
+              height: 40,
+              width: 160,
+              backgroundColor: primaryColor,
+              text: 'Submit',
+              textColor: whiteColor,
+              borderRadius: 22,
+            ),
+          )
+        ],
+      ).p16(),
+    );
   }
 
   // Function to open the date picker

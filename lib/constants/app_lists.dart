@@ -16,6 +16,12 @@ List<String> state = [
   'Bihar',
   'Kerala',
 ];
+List<String> genderList = [
+  'Select',
+  'Male',
+  'Female',
+  'Other',
+];
 
 // Selected value
 List<String> levelsList = [
@@ -24,12 +30,17 @@ List<String> levelsList = [
   'Level 2',
   'Level 3',
 ];
+List<String> banksList = [
+  'Select',
+  'bank 1',
+  'bank 2',
+  'bank 3',
+];
 List<String> loanTypeList = [
   'Select',
   'Personal Loan',
   'Property Loan',
   'Home Loan',
-  'Personal Loan',
 ];
 List<String> paymentMethodList = [
   'Select',
