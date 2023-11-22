@@ -10,20 +10,6 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
-  flutter:
-    sdk: flutter
-  flutter_image_compress: ^2.1.0
-  get: ^4.6.6
-  image_picker: ^1.0.4
-  shared_preferences: ^2.2.2
-  velocity_x: ^4.1.1
-  syncfusion_flutter_datagrid: ^23.1.41
-  syncfusion_flutter_gauges: ^23.1.41
-  syncfusion_flutter_charts: ^23.1.41
-  blurry: ^1.4.2
-  shimmer: ^3.0.0
-  http: ^1.1.0
-  gap: ^3.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -39,9 +25,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    - assets/images/
-    - assets/icons/
-    - assets/icons/report/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
